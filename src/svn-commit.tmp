@@ -1,0 +1,52 @@
+modifs!
+
+--This line, and those below, will be ignored--
+
+_M   .
+D    tmp/cache
+M    tmp/pids/delayed_job.0.pid
+M    tmp/pids/delayed_job.1.pid
+M    config/secrets.yml
+M    config/routes.rb
+M    config/initializers/devise.rb
+M    config/environments/development.rb
+M    config/environments/production.rb
+M    lib/clustering.R
+M    lib/visualization.R
+M    lib/de.R
+M    Gemfile
+M    app/views/projects/index.html.erb
+M    app/views/projects/_form_normalization.html.erb
+M    app/views/projects/_pipeline_upd.html.erb
+M    app/views/projects/_clustering.html.erb
+M    app/views/projects/show.html.erb
+M    app/views/projects/_filtering.html.erb
+M    app/views/projects/_edit.html.erb
+M    app/views/projects/_normalization.html.erb
+M    app/views/projects/_de.html.erb
+M    app/views/projects/_cart.html.erb
+M    app/views/projects/_visualization_layout.html.erb
+M    app/views/projects/_visualization.html.erb
+M    app/views/projects/_form.html.erb
+M    app/views/projects/_parsing.html.erb
+M    app/views/projects/_pipeline.html.erb
+M    app/views/projects/_index.html.erb
+M    app/views/diff_exprs/_index.html.erb
+M    app/views/layouts/application.html.erb
+M    app/views/clusters/_index.html.erb
+M    app/assets/javascripts/application.js
+M    app/assets/stylesheets/application.css
+M    app/helpers/application_helper.rb
+M    app/models/cluster.rb
+M    app/models/cluster_method.rb
+M    app/models/project.rb
+M    app/models/diff_expr_method.rb
+M    app/models/diff_expr.rb
+M    app/models/norm.rb
+M    app/models/project_dim_reduction.rb
+M    app/controllers/diff_exprs_controller.rb
+M    app/controllers/projects_controller.rb
+M    app/controllers/genes_controller.rb
+M    app/controllers/clusters_controller.rb
+M    app/controllers/selections_controller.rb
+M    db/asap.sql

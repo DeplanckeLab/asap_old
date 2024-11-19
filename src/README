@@ -1,0 +1,6 @@
+#To restart the delayed jobs
+# RAILS_ENV=development bin/delayed_job --pool=fast:8 --pool=medium:4 --pool=slow:2  restart
+RAILS_ENV=development bin/delayed_job --pool=fast:8 --pool=medium:4 --pool=slow:2  restart
+
+Stopped
+sudo Xvfb :0 -ac -screen 0 1960x2000x24 -nolisten tcp

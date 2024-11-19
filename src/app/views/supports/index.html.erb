@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+<% if admin? %>
+<h1>Supports</h1>
+
+<% @supports.each do |support| %>
+
+<div class='alert alert-info'>
+  <b><%= support.name %></b>
+  <span style='font-style:italic'><%= support.affiliation %></span>
+  <%= support.message %>
+  <%= link_to raw("<i class='fa fa-times-circle'></i>"), support_path(support), method: :delete, data: { confirm: 'Are you sure?' } %>
+</div>
+<% end %>
+
+
+<!--<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%# @supports.each do |support| %>
+      <tr>
+        <td><%# link_to 'Show', support %></td>
+        <td><%# link_to 'Edit', edit_support_path(support) %></td>
+        <td><%# link_to 'Destroy', support, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <%# end %>
+  </tbody>
+</table>
+-->
+
+<br>
+
+<%= link_to 'New Support', new_support_path %>
+<% end %>

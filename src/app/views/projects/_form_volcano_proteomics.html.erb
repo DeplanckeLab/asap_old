@@ -1,0 +1,91 @@
+<div class='row'>
+  <div class='col-md-6'>
+    abs(log10(FC)) threshold
+    <%= text_field_tag 'volcano_logfc_threshold', session[:volcano_logfc_threshold], {:class => 'form-control'} %>
+    p-value threshold
+    <%= text_field_tag 'volcano_pval_threshold', session[:volcano_pval_threshold], {:class => 'form-control'} %>
+    Comparisons
+    <% l = @comparisons.map{|e| [e, e]} %>
+    <%= select_tag 'comparison', options_for_select(l), {:class => 'form-control'} %>
+    <div style='float:right;margin-top:5px'><button id='upd_plot_btn' class='btn btn-primary'>Plot</button></div>
+    
+  </div>
+  <div class='col-md-6'>
+    Highlight protein
+    <% l = (0 .. @protein_list.size).map{|i| [@protein_list[i], i]} %>
+    <%= text_field_tag :highlight_protein, '', {:class => 'form-control'} %>
+  </div>  
+</div>
+
+<div id='plotly_volcano_plot'>
+</div>
+
+<%= javascript_tag do %>
+
+function upd_plot(){
+
+ var p = [
+   {'name' : 'dr_id', 'value' : '<%= session[:active_dr_id] %>'},
+   {'name' : 'volcano_logfc_threshold', 'value' : $("#volcano_logfc_threshold").val()},
+   {'name' : 'volcano_pval_threshold', 'value' : $("#volcano_pval_threshold").val()},
+   {'name' : 'comparison', 'value' : $("#comparison").val()}
+ ];
+   refresh_post("visualization_container", "<%= replot_project_path(:key => @project.key) %>", p, 'post');
+
+}
+
+$("#upd_plot_btn").click(function(){
+upd_plot()
+})
+/*$("#volcano_logfc_threshold").change(function(){
+console.log("upd_plot")
+upd_plot()
+})
+$("#volcano_pval_threshold").change(function(){
+upd_plot()
+})
+*/
+$("#comparison").change(function(){
+upd_plot()
+})
+
+
+
+ var traces = <%= raw @traces.to_json %>
+
+ var layout = {
+  xaxis: {title: 'logFC', type:'linear'},
+  yaxis: {title: '-log10(p-value)', type:'linear'},
+  hovermode: 'closest',
+  dragmode:'pan',
+  margin: { t: 0 },
+  legend: {
+   y:0.8,
+   yref: 'paper',
+   font: {
+    family: 'Arial, sans-serif',
+    size: 20,
+    color: 'grey',
+   }
+  },
+  title:'Volcano plot'
+ };
+
+ var plotly_volcano = Plotly.plot('plotly_volcano_plot', traces , layout);
+
+
+    $("#highlight_protein").autocomplete({
+      source: <%= raw (0 .. @protein_list.size-1).to_a.map{|i| {:value => i, :label => @protein_list[i]}}.sort{|a, b| a[:label]<=>b[:label]}.to_json %>,
+      minLength: 1,
+      select:  function( event, ui ) {
+         if (ui.item){
+           console.log(ui.item.value);
+         }
+    console.log("set value to " + ui.item.label)
+        $("#highlight_protein").val(ui.item.label)
+  event.preventDefault(); 
+      }
+    });
+
+
+<% end %>

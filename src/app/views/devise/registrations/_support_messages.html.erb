@@ -1,0 +1,9 @@
+<% current_user.supports.each do |support| %>
+
+<div class='alert alert-info'>
+  <b><%= support.name %></b>
+  <span style='font-style:italic'><%= support.affiliation %></span>
+  <%= support.message %>
+  <%= link_to raw("<i class='fa fa-times-circle'></i>"), support_path(support), method: :delete, data: { confirm: 'Are you sure?' } %>
+</div>
+<% end %>

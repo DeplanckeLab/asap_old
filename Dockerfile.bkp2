@@ -1,0 +1,13 @@
+FROM ruby:2.6.6-alpine
+RUN apk add postgresql-dev git build-base nodejs bash
+RUN touch /mimetypes
+ENV FREEDESKTOP_MIME_TYPES_PATH=/mimetypes
+WORKDIR /opt/asap
+COPY src/Gemfile .
+RUN gem update --system 3.3.22
+RUN bundle install
+COPY src/. .
+
+#CMD ["puma", "-C", "config/puma.rb"]
+CMD ["bash", "start.sh"]
+#CMD ["bash"]
