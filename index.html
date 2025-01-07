@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ASAP v1</title>
+<!--    <meta http-equiv="no-cache"> 
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="expires" content="-1" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />-->
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="CYepBg2zC2aY14gw+WFJNi60AecDo1PDe3cmy6NkIKzGAKcugLX2iMQ3W0rvPHyCOZOjVTzQLKLKGgV4uW7Leg==" />
+
+    <link rel="stylesheet" media="all" href="/assets/application-4590ef07b2df419c5c21bb47a3e968e233c4be0f0ca5ac62e142a784ef256dca.css" data-turbolinks-track="reload" />
+    <script src="/assets/application-2ed05e45f087c8b187f64263fdd5fa4cb47083d24fb00d49ba9b7ed08722819c.js" data-turbolinks-track="reload"></script>
+  </head>
+
+  <body id='body_container'>
+
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+	    <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class='overflow'><a id="home_link" class="navbar-brand" href="/">ASAP v1: Automated Single-cell Analysis Pipeline</a></span>
+        </div>
+        <div id="navbar" class="navbar-collapse navbar-right collapse">
+          <ul class="nav navbar-nav">
+	    <li class='nav-item'><a href="/home/about">Help</a></li>
+            <li class='nav-item'>
+                <a href="/users/sign_in">Login</a>
+             </li>
+	      <li class='nav-item'><p class="navbar-btn"><a class="btn btn-info btn-sm" style="margin-right:10px" href="/home/citation">To cite us</a></p></li>
+            <li class='nav-item'><p class="navbar-btn"><button type='button' class='btn btn-warning btn-sm' onclick="location.href='mailto:bioinfo.epfl@gmail.com?subject=ASAP v1 feedback'">Feedback</button></p></li>
+	  </ul>
+        </div>
+      </div>
+    </nav>
+
+<!--    <div class="container-fluid" style='margin-top:50px;margin-bottom:0'>-->
+<div class="container-fluid">
+      <div>
+	<div class="row">
+<!--	  <div class="col-sm-3 col-md-2 sidebar" style="margin-left:0.2em; margin-right:0.2em;">
+            <div id="leftbar"></div>
+            <div id="leftbar2"></div>
+           <div style="margin:auto; display:block; padding-left: 2em; font-size: 0.6em;" class="navbar-fixed-bottom">2016 - Adrian Shajkofci - EPFL</div>
+</div>-->
+	</div>
+      </div>
+      
+      <div id="info" style="margin-top: 10px"></div>
+      <div id='loading' class='hidden'><img src="/assets/loading-b46a16c0893d788d9c8371a47475201e4cc1ae3342e46fe9a88e708a2be0a8b0.gif" /></div>
+
+      <div id='ontop_window' class='hidden'>
+	<div id='ontop_window_close' class='window_close'><span onclick="$('#ontop_window').addClass('hidden');">x</span></div>
+	<div id='form_container'></div>
+      </div><div class='clear'></div>
+    </div>
+    <div id="main" class="main">
+      <p id="notice"></p>
+
+<!--   <div class='alert alert-danger'>
+ Dear users, the ASAP server had to be shutdown for technical reasons and running jobs have been killed. If some of your analyses failed, please submit them again.-->
+<!--, from 9am to 10am (GMT + 2) because of a hardware failure requiring maintenance.-->
+<!--Sorry for the inconvenience.
+</div>
+-->
+<div id='infos' class='row row-eq-height'>
+  <div class='col-xs-12'>
+ 
+    <div id='reference' class='alert alert-info'><!-- style='margin-bottom:0px;height:100%'>-->
+      <!--<span class='glyphicon glyphicon-bullhorn'></span> This work has been published in <a href='https://doi.org/10.1093/bioinformatics/btx337'>Bioinformatics</a>.<br/>-->
+<!--      <span class='glyphicon glyphicon-fire'></span> <b>New sharing feature available.</b> Now you can share your project with other people and give specific permissions (view, analyze, or download/clone). To access this new feature, click on 'Settings' once you enter your project. Please let us know if you experience any problem.<!-- Current release (3) available. Check details <a href="/versions/last_version">here</a>.-->
+<span class='glyphicon glyphicon-fire'></span> <b>New ASAP is out</b> Most of the methods have been implemented and are functional. The new edition of ASAP scales better and produces reproducible analyses. <a href='https://asap.epfl.ch' class='btn btn-primary'>Try the new ASAP</a>  
+<br/>  
+      <!--    <span class='glyphicon glyphicon-info-sign'></span> This page is refreshed automatically every minute. -->
+    </div>
+  </div>
+  <div id='message_adblock' class='alert alert-warnings hidden'>
+    We detected that you are using a Adblocker. ASAP does not contain any ads, but it can prevent some pages to function normally. Please add ASAP to your Adblocker whitelist for best usage of ASAP.
+  </div>
+<!--  <div class='col-xs-6'>
+    <div class='alert alert-warning' style='margin-bottom:0px;height:100%'>
+      The application has been tested with IE Edge 38.14393 / EdgeHTML 14.14393, Chrome 56.0.2924.87, Firefox 52.0.2 and Safari 10.1 (10603.1.30.0.34). If you are using the older version of one of these browsers or a different browser, you might have some rendering issues.
+    </div>
+  </div>
+-->
+</div>
+<!--
+<div class='alert alert-warning'>                                                                                                                      
+  Dear users, thanks to a user report, we noticed a bug due to an known issue in JSONlite R package (https://github.com/jeroen/jsonlite/issues/184). This was causing the replacement of some values of FDR to 0 in the results of differential expression. We are currently re-running in batch all DE analyses that were launched in the last 2 months. We will update this message when the update is finished. If your analysis is older than this, please run it again to fix the values.
+</div>--> 
+<!--<div class='alert alert-danger'>
+  Dear users, the ASAP platform has been shutdown for hardware maintenance on Wednesday 25th April 2018 from 5am to 7am CEST (GMT+2). 
+All running jobs were killed and you have to restart them. Sorry for the inconvenience.
+</div>
+-->
+<!--<div class='alert alert-success'>                                                                                                                                                                                               
+  Dear users, ASAP is working again normally. Please contact us if you experience any problem. The ASAP team.
+</div>--> 
+<div style='display:table-cell'><span style='font-size:10px'>The sandbox stores temporarily one project until your session ends.
+    To get a <b>personal data storage and keep track of projects</b>, please
+    <a class="btn btn-default btn-xs" href="/users/sign_in">Login</a>
+</span></div>
+
+<div id='project_lists'>
+  
+<div class='panel panel-default' style='margin-top:10px'>
+  <div class='panel-heading'>
+    <div style='float:right'>
+      
+      <a class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="You can upload your own dataset and test the platform withit. The data will not be stored after your browser session ends." href="/projects/new">Test your dataset</a>
+    </div>
+
+    <span class='h3' style='margin-right:2em'>Sandbox
+      <img width="20px" style="margin-top:-20px" data-toggle="tooltip" data-placement="right" title="Here you can create a single modifiable temporary project by uploading your own file or cloning an example project." src="/assets/info-453266b62416b17629bf926a65b845fd2cad77cb343302a827f326031ab1d963.svg" /></span>
+  </div>
+  
+  <div class='panel-body' id='project_list'>
+    You have not created a project yet.
+  </div>
+</div>
+
+<div class='panel panel-default' style='margin-top:10px'>
+  <div class='panel-heading'>
+    <div style='float:right'>
+      <div style='float:right;margin-right:5px;width:220px'>
+	<div class="input-group stylish-input-group">
+	  <input type="text" name="public_free_text" id="public_free_text" value="" size="20" class="form-control" placeholder="Search by project name" />
+	  <span id ='public_search_btn' class="input-group-addon">
+	    <!-- <button type="submit"> -->
+	    <span class="search_btn glyphicon glyphicon-search"></span>
+	    <!--     </button>-->
+	  </span>
+	</div>
+      </div>
+      <div style='float:right;width:'80px;margin-right:5px;'>
+	<select name="public_limit" id="public_limit" class="form-control"><option selected="selected" value="5">Last 5</option>
+<option value="10">Last 10</option>
+<option value="50">Last 50</option>
+<option value="100">Last 100</option>
+<option value="200">Last 200</option></select>
+      </div>
+    </div>
+    
+    <span class='h3'>
+      Examples
+      <img width="20px" style="margin-top:-20px" data-toggle="tooltip" data-placement="right" title="Here you can see Example projects (but you cannot modify them)." src="/assets/info-453266b62416b17629bf926a65b845fd2cad77cb343302a827f326031ab1d963.svg" />
+    </span>
+  </div>
+  <div class='panel-body' id='public_project_list'>
+    <table id='public_projects' class='job_list'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Organism</th>
+      <th># cells</th>
+      <th># genes</th>
+<!--      <th>Last step</th>
+      <th>Status</th>
+      <th>Duration</th>
+      <th>Submitted</th>-->
+      <th>Last update</th>
+      <th>PMID</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+      <tr>
+        <td class='project_name' title='melanocyte'>melanocyte</td>
+        <td>Human</td>
+        <td>764</td>
+        <td>23686</td>
+<!--        <td>Differential expression</th>
+        <td><span class='label label-success'>success</span></td>
+        <td>1m 54s</td>
+        <td>2019-05-13<br/>at 09:57</td>-->
+        <td>2022-11-29<br/>at 12:24</td>
+        <td>NA</td>
+        <td>
+	  <form class="button_to" method="get" action="/projects/p77mlk"><input class="btn btn-primary" type="submit" value="View (read-only)" /></form>
+</td><td>
+	  <form class="button_to" method="get" action="/projects/p77mlk/clone"><input class="btn btn-primary" type="submit" value="Clone to sandbox" /></form>
+	</td>
+          <td>
+          </td>
+      </tr>
+      <tr>
+        <td class='project_name' title='Hook2018 GSE108020 Midbrain'>Hook2018 GSE108020 Midbrain</td>
+        <td>Mouse</td>
+        <td>473</td>
+        <td>28952</td>
+<!--        <td>Cell clusters</th>
+        <td><span class='label label-success'>success</span></td>
+        <td>7m 47s</td>
+        <td>2018-07-11<br/>at 09:36</td>-->
+        <td>2018-07-24<br/>at 07:06</td>
+        <td><a href="https://www.ncbi.nlm.nih.gov/pubmed/29499164">29499164</a></td>
+        <td>
+	  <form class="button_to" method="get" action="/projects/a597s7"><input class="btn btn-primary" type="submit" value="View (read-only)" /></form>
+</td><td>
+	  <form class="button_to" method="get" action="/projects/a597s7/clone"><input class="btn btn-primary" type="submit" value="Clone to sandbox" /></form>
+	</td>
+          <td>
+          </td>
+      </tr>
+      <tr>
+        <td class='project_name' title='Tasic2016 Cortex GSE71585'>Tasic2016 Cortex GSE71585</td>
+        <td>Mouse</td>
+        <td>1809</td>
+        <td>24057</td>
+<!--        <td>Cell clusters</th>
+        <td><span class='label label-success'>success</span></td>
+        <td>15m 41s</td>
+        <td>2018-06-03<br/>at 17:24</td>-->
+        <td>2019-01-23<br/>at 15:37</td>
+        <td><a href="https://www.ncbi.nlm.nih.gov/pubmed/26727548">26727548</a></td>
+        <td>
+	  <form class="button_to" method="get" action="/projects/ab87wh"><input class="btn btn-primary" type="submit" value="View (read-only)" /></form>
+</td><td>
+	  <form class="button_to" method="get" action="/projects/ab87wh/clone"><input class="btn btn-primary" type="submit" value="Clone to sandbox" /></form>
+	</td>
+          <td>
+          </td>
+      </tr>
+      <tr>
+        <td class='project_name' title='PV-ADSC scRNAseq'>PV-ADSC scRNAseq</td>
+        <td>Mouse</td>
+        <td>85</td>
+        <td>50584</td>
+<!--        <td>Cell clusters</th>
+        <td><span class='label label-success'>success</span></td>
+        <td>1s</td>
+        <td>2018-05-29<br/>at 20:54</td>-->
+        <td>2019-06-06<br/>at 13:50</td>
+        <td>NA</td>
+        <td>
+	  <form class="button_to" method="get" action="/projects/cxsusl"><input class="btn btn-primary" type="submit" value="View (read-only)" /></form>
+</td><td>
+	  <form class="button_to" method="get" action="/projects/cxsusl/clone"><input class="btn btn-primary" type="submit" value="Clone to sandbox" /></form>
+	</td>
+          <td>
+          </td>
+      </tr>
+      <tr>
+        <td class='project_name' title='Dueck 2015'>Dueck 2015</td>
+        <td>Mouse</td>
+        <td>91</td>
+        <td>23351</td>
+<!--        <td>Differential expression</th>
+        <td><span class='label label-success'>success</span></td>
+        <td>31s</td>
+        <td>2017-03-29<br/>at 19:08</td>-->
+        <td>2019-01-24<br/>at 14:28</td>
+        <td><a href="https://www.ncbi.nlm.nih.gov/pubmed/26056000">26056000</a></td>
+        <td>
+	  <form class="button_to" method="get" action="/projects/hfl5wd"><input class="btn btn-primary" type="submit" value="View (read-only)" /></form>
+</td><td>
+	  <form class="button_to" method="get" action="/projects/hfl5wd/clone"><input class="btn btn-primary" type="submit" value="Clone to sandbox" /></form>
+	</td>
+          <td>
+          </td>
+      </tr>
+  </tbody>
+</table>
+
+<!--<iframe width="560" height="315" src="https://www.youtube.com/embed/bB_yCpaXH1E" frameborder="0" allowfullscreen></iframe>-->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Qk3fwXt3RSM" frameborder="0" allowfullscreen></iframe>
+<script>
+//<![CDATA[
+
+
+$(document).ready(function() {
+    /* Build the DataTable with third column using our custom sort functions */
+//    var oTable = $('#projects').dataTable( {
+      //  "pageLength": 50
+      //  "order": [[ 6, "desc" ]]
+//"bSort": false,
+//aaSorting: []
+ //   });
+
+/*$("a").on('click',function(event){
+var href = this.href;
+event.preventDefault();
+window.clearInterval(timer);
+//window.clearTimeout(timer);
+window.location = href;
+});
+*/
+$(".delete_item").click(function(){
+ var t = this.id.split("_");
+ var p = [];
+ p.push({name : 'nolayout', value : 1})
+ refresh_post("project_lists", '/projects/' + t[1], p, 'delete');
+});
+
+
+});
+
+$("#nber_public_projects").html("9 projects found.");
+
+
+//]]>
+</script>
+
+  </div>
+
+</div>
+
+
+<script>
+//<![CDATA[
+
+
+$("#limit").change(function(){
+ refresh_lists()
+});
+$("#public_limit").change(function(){
+ refresh_lists()
+});
+
+$("#public_free_text").keypress(function(e){
+ if(e.which == 13) {
+  $("#public_search_btn").click();
+ }
+});
+
+$("#free_text").keypress(function(e){
+ if(e.which == 13) {
+  $("#search_btn").click();
+ }
+});
+
+$("#search_btn").click(function(){
+ refresh_lists()
+});
+$("#public_search_btn").click(function(){
+ refresh_lists()
+});
+
+
+
+
+//]]>
+</script>
+</div>
+
+<script>
+//<![CDATA[
+
+
+$(document).ready(function(){
+ var canRunAds = true;
+ if( window.canRunAds === undefined ){
+ $("adblock_message").removeClass('hidden');
+ }
+})
+
+var flag=0;
+
+function refresh_lists (){
+var search_box = $("#free_text");
+var public_search_box = $("#public_free_text");
+var limit = $("#limit");
+var public_limit = $("#public_limit");
+ var p = "free_text=" + ((search_box.val()) ? search_box.val() : '');
+ p = p + "&public_free_text=" + ((public_search_box.val()) ? public_search_box.val() : '');
+ if (limit.val())
+ p = p + "&limit=" + limit.val();
+ if (public_limit.val())
+ p = p + "&public_limit=" + public_limit.val();
+ $.ajax({
+  url: "/projects?nolayout=1&" + p,
+  type: "get",
+  dataType: "html",
+  beforeSend: function(){
+  },
+  success: function(returnData){
+   var div = $("#project_lists");
+   div.html(returnData);
+  },
+  error: function(e){
+  }
+ });
+}
+
+
+
+//refresh_lists()
+
+
+
+
+//]]>
+</script>
+    </div>
+
+    <div id="main_footer">      
+      <table>
+	<tbody>
+	  <tr><td width='20%'>
+	      <a style="margin-left:20px" href="http://epfl.ch"><img height="35px" src="/assets/epfl-logo-7c6fbcbb18452b73f5a32b17f8abfd8cbbe8ec65912c66f109119dc989c51c3e.svg" /></a>
+	    </td><td style="text-align:center">
+	      &copy;2016-2025 EPFL, 1015 Lausanne<br>
+	      <a href="mailto:bioinfo.epfl@gmail.com?subject=ASAP v1 feedback">Contact</a>
+	      |
+	       <a href="https://mediacom.epfl.ch/disclaimer">Disclaimer</a>
+	    </td><td width='200px'>
+	<!--      <a href="http://deplanckelab.epfl.ch"><img height="70px" src="/assets/lsbg_crop_logo-cc435047c59d11adae84a2dbbfd0baed9102d0da9b3c04d355d07cf84e1a98e8.jpg" /></a>
+	      <a href="http://bbcf.epfl.ch"><img height="70px" src="/assets/bbcf_logo-01cf40cea1f92cc4d0c9bedf8f0a04ed73e2a12f2ac012e24aef78f2a7e7451b.png" /></a>	  -->    
+	      <span style='margin-right:10px;white-space:nowrap;font-style:italic;color:grey'>Supported by <a href="https://chanzuckerberg.com"><img height="70px" src="/assets/CZ_LOGO-395c5d4381e62821b8c598f1ecdcaddfa359e292293fe4359d105528adf8aa98.svg" /></a></span>
+	    </td>
+      </tr></tbody></table>
+    </div>
+    
+
+<script>
+//<![CDATA[
+
+$("#home_link").on('click',function(event){
+var href = this.href;
+event.preventDefault();
+if (typeof timer !== 'undefined')
+ window.clearInterval(timer);
+//window.clearTimeout(timer);
+window.location = href;
+});
+
+
+
+/*$("#button-nav").click(function(){
+alert("titi");
+ $("#navbar-right-items").toggleClass("in");
+});
+*/
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-24167610-29', 'auto');
+  ga('set', 'anonymizeIp', true); 
+  ga('send', 'pageview');
+
+
+//]]>
+</script>
+  </body>
+</html>

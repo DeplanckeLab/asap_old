@@ -34,7 +34,7 @@
  <div id='div_gene_text' class='form-group'>
   <%= label_tag 'gene_text', 'Gene identifier' %>
   <%# text_field_tag 'gene_identifier' %>
-  <%= autocomplete_field_tag  :gene_text,  session[:viz_params]['gene_text'] || '', autocomplete_genes_path(:project_key => @project.key, :organism_id => @project.organism_id, :project_key => @project.key), :"data-autocomplete-label" => "This gene is not found in your dataset!"  %>
+  <%= autocomplete_field_tag  :gene_text,  session[:viz_params]['gene_text'] || '', autocomplete_genes_path(:project_key => @project.key, :organism_id => @project.organism_id, :project_key => @project.key, :format => "json"), :"data-autocomplete-label" => "This gene is not found in your dataset!"  %>
   <!--  <%= hidden_field_tag :gene_id %>-->
   <div id='div_dataset' class='form-group'>
   <%= label_tag 'dataset', 'Dataset' %>

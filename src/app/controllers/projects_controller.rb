@@ -74,7 +74,7 @@ class ProjectsController < ApplicationController
       new_project.name += ' cloned'
       new_project.public = false
       new_project.user_id = (current_user) ? current_user.id : 1
-      new_project.session_id = (s = Session.where(:session_id => session.id).first) ? s.id : nil
+      new_project.session_id = (s = Session.where(:session_id => session.id.to_s).first) ? s.id : nil
       new_project.cloned_project_id = @project.id
       new_project.parsing_job_id = nil
       new_project.filtering_job_id = nil
@@ -154,23 +154,28 @@ class ProjectsController < ApplicationController
 
       @project.project_dim_reductions.map{|e|
         new_e = e.dup
-        h_attrs_json = JSON.parse(new_e.attrs_json)
-        h_attrs_json['custom_geneset'] = h_genesets[h_attrs_json['custom_geneset']] if h_attrs_json['custom_geneset']
-        status_id = e.status_id
-        status_id = nil if status_id and status_id < 3
-        new_e.update_attributes({:status_id => status_id, :job_id => nil, :attrs_json => h_attrs_json.to_json})        
-        new_project.project_dim_reductions << new_e
+        if new_e.attrs_json
+          h_attrs_json = JSON.parse(new_e.attrs_json) 
+          h_attrs_json['custom_geneset'] = h_genesets[h_attrs_json['custom_geneset']] if h_attrs_json['custom_geneset']
+          status_id = e.status_id
+          status_id = nil if status_id and status_id < 3
+          new_e.update_attributes({:status_id => status_id, :job_id => nil, :attrs_json => h_attrs_json.to_json})        
+          new_project.project_dim_reductions << new_e
+        end
       }
+    
 
       ## replace input.[extension] by a link (because cannot be changed)
       if tmp_dir != new_tmp_dir
-        File.delete new_tmp_dir + ('input.' + @project.extension)
-        File.symlink tmp_dir + ('input.' + @project.extension), new_tmp_dir + ('input.' + @project.extension)
+        new_input_file = new_tmp_dir + ('input.' + @project.extension)
+        File.delete new_input_file if File.exist? new_input_file
+        input_file = tmp_dir + ('input.' + @project.extension)
+        File.symlink input_file, new_input_file if File.exist? input_file 
       end
       
       redirect_to :action => 'show', :key => new_project.key
     else
-      render :nothing => true
+      head :unprocessable_entity
     end
   end
 

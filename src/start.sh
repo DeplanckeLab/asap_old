@@ -10,7 +10,7 @@ rm -f ./tmp/pids/server.pid
 #gem update --system 3.3.22
 bundle install
 #rm -rf ./solr/pids/development/sunspot-solr-development.pid
-#bundle exec rake sunspot:solr:start &
+bundle exec rake sunspot:solr:start 2>&1 > log/sunspot.log
 
 #npm run build & npm run build:css &
 #./bin/rails server -b "0.0.0.0" && fg 

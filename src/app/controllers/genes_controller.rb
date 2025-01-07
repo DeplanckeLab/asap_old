@@ -59,8 +59,11 @@ class GenesController < ApplicationController
    
 #    h_matches.keys.select{|k| !h_all_gene_names[k.downcase]}.each do |unfound_gene_name|
 #       to_render.push({:id =>'null', :label => unfound_gene_name + "Not found in Ensembl"})
-#    end
-    render :text => to_render.to_json
+   #    end
+   respond_to do |format|
+     format.json { render :json => to_render }
+     format.html
+   end
   end
 
 

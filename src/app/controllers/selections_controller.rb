@@ -102,7 +102,8 @@ class SelectionsController < ApplicationController
         end
       end
     else
-      render :nothing => true
+      #      render :nothing => true
+      head :unprocessable_entity
     end
   end
 
