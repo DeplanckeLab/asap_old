@@ -1,10 +1,133 @@
 FROM ruby:2.6.6-buster
-RUN apt-get update -qq && apt-get install -y \
+RUN apt-get update -qq && apt-get install -y --no-install-recommends\
   build-essential \
   libpq-dev \
   nodejs \
   npm \
-  && rm -rf /var/lib/apt/lists/*
+  wget \
+  ca-certificates \
+  libcurl4-openssl-dev \
+  libxml2-dev \
+  libssl-dev \
+  libjpeg-dev \
+  libpng-dev \
+  libbz2-dev \
+  liblzma-dev \
+  libpcre2-dev \
+  gfortran \
+  libreadline-dev \
+  zlib1g-dev \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install R 3.6.3 from source
+RUN wget https://cloud.r-project.org/src/base/R-3/R-3.6.3.tar.gz && \
+    tar -xf R-3.6.3.tar.gz && \
+    cd R-3.6.3 && \
+    ./configure --enable-R-shlib && \
+    make && make install && \
+    cd .. && rm -rf R-3.6.3*
+
+
+# Install remotes for specific package versions
+RUN R -e "install.packages('remotes', repos='https://cloud.r-project.org')"
+
+# Install remotes package explicitly first
+#RUN R -e "install.packages('remotes', repos='https://cloud.r-project.org')"
+
+# Install cli first
+RUN R -e "remotes::install_version('cli', version = '2.0.2', repos = 'https://cloud.r-project.org')"
+
+# Install glue
+RUN R -e "remotes::install_version('glue', version = '1.1.1', repos = 'https://cloud.r-project.org')"
+
+# Install lifecycle
+RUN R -e "remotes::install_version('rlang', version = '1.0.0', repos = 'https://cloud.r-project.org')" && \
+    R -e "remotes::install_version('lifecycle', version = '0.2.0', repos = 'https://cloud.r-project.org')"
+
+# Install pillar
+RUN R -e "remotes::install_version('vctrs', version = '0.2.1', repos = 'https://cloud.r-project.org')" && \
+    R -e "remotes::install_version('pillar', version = '1.2.1', repos = 'https://cloud.r-project.org')"
+
+# Install tibble
+RUN R -e "remotes::install_version('tibble', version = '1.3.3', repos = 'https://cloud.r-project.org')"
+
+RUN R -e "remotes::install_version('stringr', version = '1.2.0', repos = 'https://cloud.r-project.org')"
+
+# Install ggplot2
+RUN R -e "remotes::install_version('reshape2', version = '1.4.3', repos = 'https://cloud.r-project.org')" && \
+    R -e "remotes::install_version('ggplot2', version = '2.2.1', repos = 'https://cloud.r-project.org', dependencies = FALSE)"
+
+# Install the specific versions of dependencies (scales, gtable, RColorBrewer)
+RUN R -e "remotes::install_version('scales', version = '0.5.0', repos = 'https://cloud.r-project.org'); \
+    remotes::install_version('gtable', version = '0.3.0', repos = 'https://cloud.r-project.org'); \
+    remotes::install_version('RColorBrewer', version = '1.1-3', repos = 'https://cloud.r-project.org')"
+
+
+# Install ggplot2 and other CRAN packages
+RUN R -e "remotes::install_version('data.table', version = '1.10.4', repos = 'https://cloud.r-project.org')" && \
+    R -e "remotes::install_version('jsonlite', version = '1.6', repos = 'https://cloud.r-project.org')" && \
+    R -e "remotes::install_version('MASS', version = '7.3-47', repos = 'https://cloud.r-project.org')" && \
+    R -e "remotes::install_version('pheatmap', version = '1.0.8', repos = 'https://cloud.r-project.org')" && \
+    R -e "remotes::install_version('d3heatmap', version = '0.6.1.1', repos = 'https://cloud.r-project.org')" && \
+    R -e "remotes::install_version('Rtsne', version = '0.13', repos = 'https://cloud.r-project.org')" && \
+    R -e "remotes::install_version('networkD3', version = '0.4', repos = 'https://cloud.r-project.org')" && \
+    R -e "remotes::install_version('cluster', version = '2.0.6', repos = 'https://cloud.r-project.org')"
+
+# Install specific versions of R packages
+RUN R -e "remotes::install_version('htmltools', version = '0.3.6', repos = 'https://cloud.r-project.org')" && \
+    R -e "remotes::install_version('viridis', version = '0.5.0', repos = 'https://cloud.r-project.org')"
+
+# Install fontawesome without specifying a version
+RUN R -e "if (!requireNamespace('fontawesome', quietly = TRUE)) \
+        install.packages('fontawesome', repos = 'https://cloud.r-project.org')"
+
+# Install BiocManager and set version to 3.5 using BiocManager itself
+RUN R -e "install.packages('BiocManager', repos = 'https://cloud.r-project.org'); \
+    BiocManager::install(version = '3.10', ask = FALSE)"
+
+RUN R -e "BiocManager::install('XML')"
+RUN R -e "remotes::install_version('cpp11', version = '0.2.1', repos='https://cloud.r-project.org')" && \
+    R -e "remotes::install_version('RSQLite', version = '2.2.8', repos='https://cloud.r-project.org')"
+
+# Install AnnotationDbi using BiocManager
+RUN R -e "BiocManager::install('AnnotationDbi')"
+
+RUN R -e "BiocManager::install('annotate')"
+
+# Install fs package (needed by sass)
+RUN R -e "install.packages('fs', repos = 'https://cloud.r-project.org')"
+
+#RUN R -e "remotes::install_version('vctrs', version = '0.2.1', repos = 'https://cloud.r-project.org')"
+
+
+# Install 'locfit' package (needed by 'edgeR')
+RUN R -e "install.packages('locfit', repos = 'https://cloud.r-project.org')"
+
+
+# Install Bioconductor packages
+RUN R -e "BiocManager::install(c( \
+        'sva', 'genefilter', 'mgcv', 'nlme', 'foreach', 'affyio', 'affy', 'GEOquery', \
+        'oligo', 'Biostrings', 'XVector', 'oligoClasses', 'scde', 'flexmix', 'lattice', \
+        'edgeR', 'limma', 'BiocParallel', 'DESeq2', 'SummarizedExperiment', 'DelayedArray', \
+        'matrixStats', 'Biobase', 'GenomicRanges', 'GenomeInfoDb', 'IRanges', 'S4Vectors', \
+        'BiocGenerics', 'SCAN.UPC', 'SC3'))"
+	
+# Optional: Verify installation
+RUN R -e "installed.packages()"
+
+# Install R packages
+#RUN R -e "install.packages(c( \
+#        'jsonlite', 'data.table', 'limma', 'scater', 'SC3', 'cluster', 'networkD3', 'd3heatmap', 'pheatmap', 'sva', 'MASS', 'Rtsne'), \
+#        repos='https://cloud.r-project.org')"
+
+# Install Bioconductor packages
+#RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) \
+#        install.packages('BiocManager'); \
+#        BiocManager::install(c('DESeq2', 'BiocParallel', 'edgeR', 'scde', 'snowfall', 'SCAN.UPC', 'scLVM'))"
+
+# Optional: Verify installed packages
+#RUN R -e "installed.packages()[, 'Package']"
+
 RUN touch /mimetypes
 ENV FREEDESKTOP_MIME_TYPES_PATH=/mimetypes
 WORKDIR /opt/asap-old

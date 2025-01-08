@@ -1,6 +1,6 @@
 development:
  server_url:
-  https://asap-v1.epfl.ch
+  https://asap-old.epfl.ch
  data_dir:
   /data/asap
  user_data_dir:
@@ -10,7 +10,7 @@ development:
 
 production:
  server_url:
-  https://asap-v1.epfl.ch
+  https://asap-old.epfl.ch
  data_dir:
   /data/asap
  user_data_dir:

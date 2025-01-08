@@ -1,0 +1,119 @@
+time="2025-01-08T02:06:33-05:00" level=warning msg="/srv/asap_old/docker-compose.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Service website  Building
+#0 building with "default" instance using docker driver
+
+#1 [website internal] load build definition from Dockerfile
+#1 transferring dockerfile: 7.66kB done
+#1 DONE 0.0s
+
+#2 [website internal] load metadata for docker.io/library/ruby:2.6.6-buster
+#2 DONE 0.0s
+
+#3 [website internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [website  1/30] FROM docker.io/library/ruby:2.6.6-buster
+#4 DONE 0.0s
+
+#5 [website internal] load build context
+#5 transferring context: 173.83MB 1.3s done
+#5 DONE 1.3s
+
+#6 [website 20/30] RUN R -e "BiocManager::install('annotate')"
+#6 CACHED
+
+#7 [website 23/30] RUN R -e "BiocManager::install(c(         'sva', 'genefilter', 'mgcv', 'nlme', 'foreach', 'affyio', 'affy', 'GEOquery',         'oligo', 'Biostrings', 'XVector', 'oligoClasses', 'scde', 'flexmix', 'lattice',         'edgeR', 'limma', 'BiocParallel', 'DESeq2', 'SummarizedExperiment', 'DelayedArray',         'matrixStats', 'Biobase', 'GenomicRanges', 'GenomeInfoDb', 'IRanges', 'S4Vectors',         'BiocGenerics', 'SCAN.UPC', 'SC3'))"
+#7 CACHED
+
+#8 [website 27/30] COPY src/Gemfile .
+#8 CACHED
+
+#9 [website 11/30] RUN R -e "remotes::install_version('reshape2', version = '1.4.3', repos = 'https://cloud.r-project.org')" &&     R -e "remotes::install_version('ggplot2', version = '2.2.1', repos = 'https://cloud.r-project.org', dependencies = FALSE)"
+#9 CACHED
+
+#10 [website  5/30] RUN R -e "remotes::install_version('cli', version = '2.0.2', repos = 'https://cloud.r-project.org')"
+#10 CACHED
+
+#11 [website 15/30] RUN R -e "if (!requireNamespace('fontawesome', quietly = TRUE))         install.packages('fontawesome', repos = 'https://cloud.r-project.org')"
+#11 CACHED
+
+#12 [website 26/30] WORKDIR /opt/asap-old
+#12 CACHED
+
+#13 [website 28/30] RUN gem update --system 3.3.22
+#13 CACHED
+
+#14 [website 21/30] RUN R -e "install.packages('fs', repos = 'https://cloud.r-project.org')"
+#14 CACHED
+
+#15 [website 13/30] RUN R -e "remotes::install_version('data.table', version = '1.10.4', repos = 'https://cloud.r-project.org')" &&     R -e "remotes::install_version('jsonlite', version = '1.6', repos = 'https://cloud.r-project.org')" &&     R -e "remotes::install_version('MASS', version = '7.3-47', repos = 'https://cloud.r-project.org')" &&     R -e "remotes::install_version('pheatmap', version = '1.0.8', repos = 'https://cloud.r-project.org')" &&     R -e "remotes::install_version('d3heatmap', version = '0.6.1.1', repos = 'https://cloud.r-project.org')" &&     R -e "remotes::install_version('Rtsne', version = '0.13', repos = 'https://cloud.r-project.org')" &&     R -e "remotes::install_version('networkD3', version = '0.4', repos = 'https://cloud.r-project.org')" &&     R -e "remotes::install_version('cluster', version = '2.0.6', repos = 'https://cloud.r-project.org')"
+#15 CACHED
+
+#16 [website 24/30] RUN R -e "installed.packages()"
+#16 CACHED
+
+#17 [website  6/30] RUN R -e "remotes::install_version('glue', version = '1.1.1', repos = 'https://cloud.r-project.org')"
+#17 CACHED
+
+#18 [website 18/30] RUN R -e "remotes::install_version('cpp11', version = '0.2.1', repos='https://cloud.r-project.org')" &&     R -e "remotes::install_version('RSQLite', version = '2.2.8', repos='https://cloud.r-project.org')"
+#18 CACHED
+
+#19 [website 22/30] RUN R -e "install.packages('locfit', repos = 'https://cloud.r-project.org')"
+#19 CACHED
+
+#20 [website  3/30] RUN wget https://cloud.r-project.org/src/base/R-3/R-3.6.3.tar.gz &&     tar -xf R-3.6.3.tar.gz &&     cd R-3.6.3 &&     ./configure --enable-R-shlib &&     make && make install &&     cd .. && rm -rf R-3.6.3*
+#20 CACHED
+
+#21 [website 19/30] RUN R -e "BiocManager::install('AnnotationDbi')"
+#21 CACHED
+
+#22 [website 12/30] RUN R -e "remotes::install_version('scales', version = '0.5.0', repos = 'https://cloud.r-project.org');     remotes::install_version('gtable', version = '0.3.0', repos = 'https://cloud.r-project.org');     remotes::install_version('RColorBrewer', version = '1.1-3', repos = 'https://cloud.r-project.org')"
+#22 CACHED
+
+#23 [website 10/30] RUN R -e "remotes::install_version('stringr', version = '1.2.0', repos = 'https://cloud.r-project.org')"
+#23 CACHED
+
+#24 [website  7/30] RUN R -e "remotes::install_version('rlang', version = '1.0.0', repos = 'https://cloud.r-project.org')" &&     R -e "remotes::install_version('lifecycle', version = '0.2.0', repos = 'https://cloud.r-project.org')"
+#24 CACHED
+
+#25 [website  2/30] RUN apt-get update -qq && apt-get install -y --no-install-recommends  build-essential   libpq-dev   nodejs   npm   wget   ca-certificates   libcurl4-openssl-dev   libxml2-dev   libssl-dev   libjpeg-dev   libpng-dev   libbz2-dev   liblzma-dev   libpcre2-dev   gfortran   libreadline-dev   zlib1g-dev   && apt-get clean && rm -rf /var/lib/apt/lists/*
+#25 CACHED
+
+#26 [website  9/30] RUN R -e "remotes::install_version('tibble', version = '1.3.3', repos = 'https://cloud.r-project.org')"
+#26 CACHED
+
+#27 [website 17/30] RUN R -e "BiocManager::install('XML')"
+#27 CACHED
+
+#28 [website  4/30] RUN R -e "install.packages('remotes', repos='https://cloud.r-project.org')"
+#28 CACHED
+
+#29 [website 25/30] RUN touch /mimetypes
+#29 CACHED
+
+#30 [website  8/30] RUN R -e "remotes::install_version('vctrs', version = '0.2.1', repos = 'https://cloud.r-project.org')" &&     R -e "remotes::install_version('pillar', version = '1.2.1', repos = 'https://cloud.r-project.org')"
+#30 CACHED
+
+#31 [website 14/30] RUN R -e "remotes::install_version('htmltools', version = '0.3.6', repos = 'https://cloud.r-project.org')" &&     R -e "remotes::install_version('viridis', version = '0.5.0', repos = 'https://cloud.r-project.org')"
+#31 CACHED
+
+#32 [website 16/30] RUN R -e "install.packages('BiocManager', repos = 'https://cloud.r-project.org');     BiocManager::install(version = '3.10', ask = FALSE)"
+#32 CACHED
+
+#33 [website 29/30] RUN bundle install
+#33 CACHED
+
+#34 [website 30/30] COPY src/. .
+#34 DONE 1.3s
+
+#35 [website] exporting to image
+#35 exporting layers
+#35 exporting layers 1.2s done
+ Service website  Built
+#35 writing image sha256:8bfc9fbc2e7e72408e706cfd10a35a504e712f98a700f076b298d0efbaa4df2e done
+#35 naming to docker.io/library/asap_old-website done
+#35 DONE 1.2s
+
+#36 [website] resolving provenance for metadata file
+#36 DONE 0.0s
