@@ -115,16 +115,6 @@ RUN R -e "BiocManager::install(c( \
 # Optional: Verify installation
 RUN R -e "installed.packages()"
 
-# Install R packages
-#RUN R -e "install.packages(c( \
-#        'jsonlite', 'data.table', 'limma', 'scater', 'SC3', 'cluster', 'networkD3', 'd3heatmap', 'pheatmap', 'sva', 'MASS', 'Rtsne'), \
-#        repos='https://cloud.r-project.org')"
-
-# Install Bioconductor packages
-#RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) \
-#        install.packages('BiocManager'); \
-#        BiocManager::install(c('DESeq2', 'BiocParallel', 'edgeR', 'scde', 'snowfall', 'SCAN.UPC', 'scLVM'))"
-
 # Optional: Verify installed packages
 #RUN R -e "installed.packages()[, 'Package']"
 
