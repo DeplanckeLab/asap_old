@@ -28,7 +28,7 @@ RUN wget https://cloud.r-project.org/src/base/R-3/R-3.4.1.tar.gz && \
     cd .. && rm -rf R-3.4.1*
 
 COPY src/lib/install_packages.R .
-RUN Rscript install_packages.R
+RUN Rscript install_packages.R 2>&1 > log/install_packages.log
 
 # Optional: Verify installed packages
 RUN R -e "installed.packages()[, 'Package']"

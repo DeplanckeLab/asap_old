@@ -33,7 +33,7 @@ src/package-lock.json
 *#
 *.old
 *.old.*
-*.bkp
+*.bkp*
 *.bkp.*
 *.bak
 *.bak.*
