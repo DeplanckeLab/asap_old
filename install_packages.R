@@ -1,3 +1,4 @@
+options(repos = c(CRAN = "https://cloud.r-project.org"))
 install.packages("remotes")
 remotes::install_version("Rtsne", version="0.13")
 remotes::install_version("MASS", version="7.3-47")
