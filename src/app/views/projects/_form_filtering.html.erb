@@ -16,7 +16,7 @@
 
 <div class='form-group form-inline'>
 <%= label_tag 'filter_method_id', "Filter method", {'data-toggle' => 'tooltip', 'title' => ""} %>
-<% l = FilterMethod.all.select{|e| @all_results[:parsing]['is_count_table'] == 1 or e.handles_log == true}.map{|e| [e.label, e.id]}.sort %>
+<% l = FilterMethod.all.select{|e| (@all_results[:parsing]['is_count_table'] == 1 or e.handles_log == true) and hidden != true}.map{|e| [e.label, e.id]}.sort %>
 <% l.unshift(["None", nil]) %>
 <%= f.select :filter_method_id, l, {}, {class: 'form-control'} %>
 <% Speed.all.each do |s| %>

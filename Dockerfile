@@ -33,16 +33,16 @@ RUN mkdir log
 RUN Rscript install_packages.R 
 
 # Optional: Verify installed packages
-#RUN R -e "installed.packages()[, 'Package']"
+RUN R -e "installed.packages()[, 'Package']"
 
-#RUN touch /mimetypes
-#ENV FREEDESKTOP_MIME_TYPES_PATH=/mimetypes
-#WORKDIR /opt/asap-old
-#COPY src/Gemfile .
-#RUN gem update --system 3.3.22
-#RUN bundle install
-#COPY src/. .
+RUN touch /mimetypes
+ENV FREEDESKTOP_MIME_TYPES_PATH=/mimetypes
+WORKDIR /opt/asap-old
+COPY src/Gemfile .
+RUN gem update --system 3.3.22
+RUN bundle install
+COPY src/. .
 
-#CMD ["puma", "-C", "config/puma.rb"]
-#CMD ["bash", "start.sh"]
-#CMD ["bash"]
+CMD ["puma", "-C", "config/puma.rb"]
+CMD ["bash", "start.sh"]
+CMD ["bash"]
