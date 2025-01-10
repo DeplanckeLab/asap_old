@@ -141,52 +141,59 @@ install.packages("https://cran.r-project.org/src/contrib/Archive/openssl/openssl
 remotes::install_version("httr", version="1.2.1", upgrade = "never", dependencies = F)
 remotes::install_version("dplyr", version="0.7.1", upgrade = "never", dependencies = F)
 
+#Bioconductor 3.5 is deprecated
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/limma_3.32.10.tar.gz", repos = NULL) # Instead of 3.32.2
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/edgeR_3.18.1.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.6/bioc/src/contrib/BiocGenerics_0.24.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/Biobase_2.36.2.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.6/bioc/src/contrib/S4Vectors_0.16.0.tar.gz", repos = NULL)
+install.packages("https://cran.r-project.org/src/contrib/Archive/snow/snow_0.4-2.tar.gz", repos = NULL) # What version should it be? BiocParallel 1.10.1 requires it
+install.packages("https://cran.r-project.org/src/contrib/Archive/futile.options/futile.options_1.0.0.tar.gz", repos = NULL) # What version should it be? futile.logger 1.4 requires it
+install.packages("https://cran.r-project.org/src/contrib/Archive/lambda.r/lambda.r_1.1.9.tar.gz", repos = NULL) # What version should it be? futile.logger 1.4 requires it
+install.packages("https://cran.r-project.org/src/contrib/Archive/futile.logger/futile.logger_1.4.tar.gz", repos = NULL) # What version should it be? BiocParallel 1.10.1 requires it
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/BiocParallel_1.10.1.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.6/bioc/src/contrib/IRanges_2.12.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/zlibbioc_1.22.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/XVector_0.16.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/data/annotation/src/contrib/GenomeInfoDbData_0.99.0.tar.gz", repos = NULL) 
+install.packages("https://www.bioconductor.org/packages/3.6/bioc/src/contrib/GenomeInfoDb_1.14.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.6/bioc/src/contrib/GenomicRanges_1.30.3.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.6/bioc/src/contrib/DelayedArray_0.4.1.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.6/bioc/src/contrib/SummarizedExperiment_1.8.1.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/AnnotationDbi_1.38.2.tar.gz", repos = NULL) # Instead of 1.38.1
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/annotate_1.54.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/genefilter_1.58.1.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/geneplotter_1.54.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/DESeq2_1.16.1.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.6/bioc/src/contrib/BiocInstaller_1.28.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/Biostrings_2.44.2.tar.gz", repos = NULL) # Instead of 2.44.1
+install.packages("https://www.bioconductor.org/packages/3.6/bioc/src/contrib/sva_3.26.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/affyio_1.46.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/GEOquery_2.42.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/preprocessCore_1.38.1.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/affy_1.54.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/affxparser_1.48.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/oligoClasses_1.38.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/oligo_1.40.2.tar.gz", repos = NULL) # Instead of 1.40.1
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/pcaMethods_1.68.0.tar.gz", repos = NULL) 
+install.packages("https://www.bioconductor.org/packages/3.6/bioc/src/contrib/scde_2.6.0.tar.gz", repos = NULL)  # Instead of 2.5.0
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/tximport_1.4.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/biomaRt_2.32.1.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/rhdf5_2.20.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/scater_1.4.0.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/SC3_1.4.2.tar.gz", repos = NULL)
+install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/SCAN.UPC_2.18.0.tar.gz", repos = NULL)
+
+
 # FAILS
-remotes::install_version("rPython", version="0.0-6", upgrade = "never", dependencies = F)
-install.packages("https://cran.r-project.org/src/contrib/Archive/rPython/rPython_0.0-6.tar.gz", repos = NULL)
+#remotes::install_version("rPython", version="0.0-6", upgrade = "never", dependencies = F)
+#install.packages("https://cran.r-project.org/src/contrib/Archive/rPython/rPython_0.0-6.tar.gz", repos = NULL)
 
 
-install.packages("https://www.bioconductor.org/src/contrib/edgeR_3.18.1.tar.gz", repos = NULL)
+# https://www.bioconductor.org/packages/3.5/bioc/html/
 
 # NOT FOUND PACKAGES
-remotes::install_version("SCAN.UPC", version="2.18.0", upgrade = "never", dependencies = F) # FAILS (not found)
-remotes::install_version("sva", version="3.26.0", upgrade = "never", dependencies = F) # FAILS (not found)
-remotes::install_version("genefilter", version="1.58.1", upgrade = "never", dependencies = F) #  FAILS (not found)
-remotes::install_version("affyio", version="1.46.0", upgrade = "never", dependencies = F) #  FAILS (not found)
-remotes::install_version("affy", version="1.54.0", upgrade = "never", dependencies = F) #  FAILS (not found)
-remotes::install_version("GEOquery", version="2.42.0", upgrade = "never", dependencies = F) #  FAILS (not found)
-remotes::install_version("oligo", version="1.40.1", upgrade = "never", dependencies = F)
-remotes::install_version("Biostrings", version="2.44.1", upgrade = "never", dependencies = F)
-remotes::install_version("XVector", version="0.16.0", upgrade = "never", dependencies = F)
-remotes::install_version("oligoClasses", version="1.38.0", upgrade = "never", dependencies = F)
-remotes::install_version("scde", version="2.5.0", upgrade = "never", dependencies = F)
-remotes::install_version("edgeR", version="3.18.1", upgrade = "never", dependencies = F)
-remotes::install_version("BiocParallel", version="1.10.1", upgrade = "never", dependencies = F)
-remotes::install_version("DESeq2", version="1.16.1", upgrade = "never", dependencies = F)
-remotes::install_version("SummarizedExperiment", version="1.8.1", upgrade = "never", dependencies = F)
-remotes::install_version("DelayedArray", version="0.4.1", upgrade = "never", dependencies = F)
-remotes::install_version("GenomicRanges", version="1.30.3", upgrade = "never", dependencies = F)
-remotes::install_version("GenomeInfoDb", version="1.14.0", upgrade = "never", dependencies = F)
-remotes::install_version("IRanges", version="2.12.0", upgrade = "never", dependencies = F)
-remotes::install_version("S4Vectors", version="0.16.0", upgrade = "never", dependencies = F)
-remotes::install_version("SC3", version="1.4.2", upgrade = "never", dependencies = F)
-remotes::install_version("scater", version="1.4.0", upgrade = "never", dependencies = F)
-remotes::install_version("Biobase", version="2.36.2", upgrade = "never", dependencies = F)
-remotes::install_version("BiocGenerics", version="0.24.0", upgrade = "never", dependencies = F)
-remotes::install_version("limma", version="3.32.2", upgrade = "never", dependencies = F)
-remotes::install_version("BiocInstaller", version="1.28.0", upgrade = "never", dependencies = F)
-remotes::install_version("scLVM", version="0.99.3", upgrade = "never", dependencies = F)
-remotes::install_version("annotate", version="1.54.0", upgrade = "never", dependencies = F)
-remotes::install_version("tximport", version="1.4.0", upgrade = "never", dependencies = F)
-remotes::install_version("zlibbioc", version="1.22.0", upgrade = "never", dependencies = F)
-remotes::install_version("preprocessCore", version="1.38.1", upgrade = "never", dependencies = F)
-remotes::install_version("AnnotationDbi", version="1.38.1", upgrade = "never", dependencies = F)
-remotes::install_version("biomaRt", version="2.32.1", upgrade = "never", dependencies = F)
-remotes::install_version("geneplotter", version="1.54.0", upgrade = "never", dependencies = F)
-remotes::install_version("pcaMethods", version="1.68.0", upgrade = "never", dependencies = F)
-remotes::install_version("affxparser", version="1.48.0", upgrade = "never", dependencies = F)
-remotes::install_version("rhdf5", version="2.20.0", upgrade = "never", dependencies = F)
-remotes::install_version("GenomeInfoDbData", version="0.99.0", upgrade = "never", dependencies = F)
+#remotes::install_version("scLVM", version="0.99.3", upgrade = "never", dependencies = F)
 
 
 
