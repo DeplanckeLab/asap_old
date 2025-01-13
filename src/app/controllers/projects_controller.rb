@@ -167,10 +167,10 @@ class ProjectsController < ApplicationController
 
       ## replace input.[extension] by a link (because cannot be changed)
       if tmp_dir != new_tmp_dir
-        new_input_file = new_tmp_dir + ('input.' + @project.extension)
-        File.delete new_input_file if File.exist? new_input_file
-        input_file = tmp_dir + ('input.' + @project.extension)
-        File.symlink input_file, new_input_file if File.exist? input_file 
+      #  new_input_file = new_tmp_dir + ('input.' + @project.extension)
+      #  File.delete new_input_file if File.exist? new_input_file
+      #  input_file = tmp_dir + ('input.' + @project.extension)
+      #  File.link input_file, new_input_file if File.exist? input_file 
       end
       
       redirect_to :action => 'show', :key => new_project.key
@@ -1193,7 +1193,7 @@ class ProjectsController < ApplicationController
     
     @project.user_id = (current_user) ? current_user.id : 1
     @project.sandbox = (current_user) ? false : true
-    @project.session_id = (s = Session.where(:session_id => session.id).first) ? s.id : nil
+    @project.session_id = (s = Session.where(:session_id => session.id.to_s).first) ? s.id : nil
 
     input_file = Course.where(:project_key => @project.key).first
     @project.input_filename = input_file.upload_file_name
@@ -1248,7 +1248,7 @@ class ProjectsController < ApplicationController
         # end
         
         File.delete tmp_dir + ('input.' + ext) if File.exist?(tmp_dir + ('input.'+ ext))
-        File.symlink upload_path, tmp_dir + ('input.' + ext) 
+        File.link upload_path, tmp_dir + ('input.' + ext) 
 
         ### parse batch_file
         #        @project.parse_batch_file()
@@ -1408,8 +1408,8 @@ class ProjectsController < ApplicationController
             if ! (step_id == 5 and params[:project][:step_id].to_i == 3)
               ProjectStep.where(:project_id => @project.id, :step_id => step_id).all.each do |ps|
                 step_name = ps.step.name
-                if File.symlink?(tmp_dir + step_name)
-                  File.delete(tmp_dir + step_name)
+                if File.link?(tmp_dir + step_name)
+                 # File.delete(tmp_dir + step_name)
                 else
                   FileUtils.rm_r Dir.glob((tmp_dir + step_name).to_s + "/*")
                 end

@@ -18,6 +18,7 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends\
   libreadline-dev \
   zlib1g-dev \
   python2.7-dev \
+  default-jre default-jdk\
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install R 3.4.1 from source
@@ -43,6 +44,6 @@ RUN gem update --system 3.3.22
 RUN bundle install
 COPY src/. .
 
-CMD ["puma", "-C", "config/puma.rb"]
+#RUN ln -s /data/asap public/data
+
 CMD ["bash", "start.sh"]
-CMD ["bash"]

@@ -70,7 +70,7 @@ class FilterMethodsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def filter_method_params
 #      params.fetch(:filter_method, {})
-      params.fetch(:filter_method).permit(:name, :label, :description, :attrs_json, :program, :link, :speed_id, :handles_log)
+      params.fetch(:filter_method).permit(:name, :label, :description, :attrs_json, :program, :link, :speed_id, :handles_log, :hidden)
 
     end
 end

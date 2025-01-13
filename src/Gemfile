@@ -9,7 +9,8 @@ end
 ruby '2.6.6'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'                                                                                                                                                      
-gem 'rails', '~> 5.2.4', '>= 5.2.4.4'
+#gem 'rails', '~> 5.2.4', '>= 5.2.4.4'
+gem "rails", '~> 5.0.0', '>= 5.0.0.1'
 # Use postgresql as the database for Active Record                                                                                                                                                                   
 gem 'pg', '~> 1.5'
 # Use Puma as the app server                                                                                                                                                                                         
@@ -38,11 +39,13 @@ gem 'descriptive_statistics'
 gem 'sys-proctable'
 gem 'rails4-autocomplete'
 gem 'jquery-fileupload-rails'
-gem 'paperclip'
+#gem 'paperclip', "~>4.3.2"
 gem 'multipart-parser'
 gem 'haml'
 gem 'activerecord-session_store'
 gem "font-awesome-rails"
+#gem 'mimemagic', "0.3.0"
+gem 'paperclip'
 gem 'mimemagic'
 gem 'jquery-rails'
 
