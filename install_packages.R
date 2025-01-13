@@ -136,10 +136,45 @@ install.packages("https://cran.r-project.org/src/contrib/Archive/fpc/fpc_2.1-10.
 install.packages("https://cran.r-project.org/src/contrib/Archive/whisker/whisker_0.3-2.tar.gz", repos = NULL) # What version should it be? dendextend 1.3.0 requires whisker
 install.packages("https://cran.r-project.org/src/contrib/Archive/dendextend/dendextend_1.3.0.tar.gz", repos = NULL) # What version should it be? d3heatmap 0.6.1.1 requires dendextend
 remotes::install_version("d3heatmap", version="0.6.1.1", upgrade = "never", dependencies = F)
-install.packages("https://cran.r-project.org/src/contrib/Archive/curl/curl_2.3.tar.gz", repos = NULL) # What version should it be? httr 1.2.1 requires curl
-install.packages("https://cran.r-project.org/src/contrib/Archive/openssl/openssl_0.9.6.tar.gz", repos = NULL) # What version should it be? httr 1.2.1 requires openssl
+remotes::install_version("curl", version="2.7", upgrade = "never", dependencies = F)
+remotes::install_version("openssl", version="0.9.6", upgrade = "never", dependencies = F)
 remotes::install_version("httr", version="1.2.1", upgrade = "never", dependencies = F)
 remotes::install_version("dplyr", version="0.7.1", upgrade = "never", dependencies = F)
+remotes::install_version("getopt", version="1.20.0", upgrade = "never", dependencies = F)
+remotes::install_version("ggrepel", version="0.7.0", upgrade = "never", dependencies = F)
+remotes::install_version("heatmap.plus", version="1.3", upgrade = "never", dependencies = F)
+remotes::install_version("rstudioapi", version="0.6", upgrade = "never", dependencies = F)
+remotes::install_version("git2r", version="0.18.0", upgrade = "never", dependencies = F)
+remotes::install_version("withr", version="1.0.2", upgrade = "never", dependencies = F)
+remotes::install_version("devtools", version="1.13.2", upgrade = "never", dependencies = F)
+remotes::install_version("fastICA", version="1.2-1", upgrade = "never", dependencies = F)
+remotes::install_version("combinat", version="0.0-8", upgrade = "never", dependencies = F)
+remotes::install_version("slam", version="0.1-42", upgrade = "never", dependencies = F)
+remotes::install_version("qlcMatrix", version="0.9.5", upgrade = "never", dependencies = F)
+remotes::install_version("RUnit", version="0.4.31", upgrade = "never", dependencies = F)
+remotes::install_version("permute", version="0.9-4", upgrade = "never", dependencies = F)
+remotes::install_version("vegan", version="2.4-3", upgrade = "never", dependencies = F)
+remotes::install_version("gridBase", version="0.4-7", upgrade = "never", dependencies = F)
+remotes::install_version("sp", version="1.2-5", upgrade = "never", dependencies = F)
+remotes::install_version("maps", version="3.2.0", upgrade = "never", dependencies = F)
+remotes::install_version("shapefiles", version="0.7", upgrade = "never", dependencies = F)
+remotes::install_version("fossil", version="0.3.7", upgrade = "never", dependencies = F)
+remotes::install_version("ellipse", version="0.3-8", upgrade = "never", dependencies = F)
+remotes::install_version("scatterplot3d", version="0.3-40", upgrade = "never", dependencies = F)
+remotes::install_version("flashClust", version="1.01-2", upgrade = "never", dependencies = F)
+remotes::install_version("leaps", version="3.0", upgrade = "never", dependencies = F)
+remotes::install_version("FactoMineR", version="1.36", upgrade = "never", dependencies = F)
+remotes::install_version("VGAM", version="1.0-5", upgrade = "never", dependencies = F)
+remotes::install_version("FNN", version="1.1", upgrade = "never", dependencies = F)
+remotes::install_version("densityClust", version="0.3", upgrade = "never", dependencies = F)
+remotes::install_version("NMF", version="0.20.6", upgrade = "never", dependencies = F)
+remotes::install_version("proxy", version="0.4-22", upgrade = "never", dependencies = F)
+remotes::install_version("SNFtool", version="2.2.1", upgrade = "never", dependencies = F)
+remotes::install_version("RANN", version="2.5.1", upgrade = "never", dependencies = F)
+remotes::install_version("optparse", version="1.4.4", upgrade = "never", dependencies = F)
+remotes::install_version("ineq", version="0.2-13", upgrade = "never", dependencies = F)
+remotes::install_version("DDRTree", version="0.1.5", upgrade = "never", dependencies = F)
+
 
 #Bioconductor 3.5 is deprecated
 install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/limma_3.32.10.tar.gz", repos = NULL) # Instead of 3.32.2
@@ -185,14 +220,26 @@ install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/SC3
 install.packages("https://www.bioconductor.org/packages/3.5/bioc/src/contrib/SCAN.UPC_2.18.0.tar.gz", repos = NULL)
 
 
+
+
+
+
+
+
+
+
+
+
+
+remotes::install_version("monocle", version="2.6.4", upgrade = "never", dependencies = F)
+remotes::install_version("RBGL", version="1.54.0", upgrade = "never", dependencies = F)
+remotes::install_version("biocViews", version="1.46.0", upgrade = "never", dependencies = F)
+remotes::install_version("graph", version="1.56.0", upgrade = "never", dependencies = F)
+remotes::install_version("HSMMSingleCell", version="0.112.0", upgrade = "never", dependencies = F)
+
+
 # FAILS
 #remotes::install_version("rPython", version="0.0-6", upgrade = "never", dependencies = F)
-#install.packages("https://cran.r-project.org/src/contrib/Archive/rPython/rPython_0.0-6.tar.gz", repos = NULL)
-
-
-# https://www.bioconductor.org/packages/3.5/bioc/html/
-
-# NOT FOUND PACKAGES
 #remotes::install_version("scLVM", version="0.99.3", upgrade = "never", dependencies = F)
 
 
