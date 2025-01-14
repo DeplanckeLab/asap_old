@@ -1408,11 +1408,11 @@ class ProjectsController < ApplicationController
             if ! (step_id == 5 and params[:project][:step_id].to_i == 3)
               ProjectStep.where(:project_id => @project.id, :step_id => step_id).all.each do |ps|
                 step_name = ps.step.name
-                if File.link?(tmp_dir + step_name)
+             #   if File.link?(tmp_dir + step_name)
                  # File.delete(tmp_dir + step_name)
-                else
-                  FileUtils.rm_r Dir.glob((tmp_dir + step_name).to_s + "/*")
-                end
+             #   else
+                FileUtils.rm_r Dir.glob((tmp_dir + step_name).to_s + "/*")
+                #  end
                 ps.update_attributes(:status_id => nil) if ps.step_id != params[:project][:step_id].to_i
                 logger.debug("PROJECTSTEP: " + ps.to_json)
               end
