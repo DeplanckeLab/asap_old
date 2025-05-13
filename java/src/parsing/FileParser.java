@@ -30,10 +30,10 @@ public class FileParser {
 
    public static void parse() {
       json = new ParsingJSON();
-      HashSet<String> ERCCs = new HashSet();
-      ArrayList<String> genes = new ArrayList();
-      HashMap<String, Integer> geneDups = new HashMap();
-      ArrayList<String> cell_names = new ArrayList();
+      HashSet<String> ERCCs = new HashSet<String>();
+      ArrayList<String> genes = new ArrayList<String>();
+      HashMap<String, Integer> geneDups = new HashMap<String, Integer>();
+      ArrayList<String> cell_names = new ArrayList<String>();
       System.out.println("Parsing file : " + Parameters.fileName);
 
       try {
@@ -106,7 +106,7 @@ public class FileParser {
          for(; line != null; line = br.readLine()) {
             ++current_line;
             tokens = line.split(Parameters.delimiter);
-            ArrayList<String> rowValues = new ArrayList();
+            ArrayList<String> rowValues = new ArrayList<String>();
             col = 0;
             String[] var21 = tokens;
             int var54 = tokens.length;
@@ -186,7 +186,7 @@ public class FileParser {
                   isERCC = true;
                   ++json.nber_ercc;
                } else {
-                  ArrayList<Gene> dbHit = (ArrayList)dbGenes.get(gene.toUpperCase());
+                  ArrayList<Gene> dbHit = dbGenes.get(gene.toUpperCase());
                   String ensIdList = "";
                   String geneIdList = "";
                   altIdList = "";
@@ -195,9 +195,9 @@ public class FileParser {
                      bw_NF.write(gene + "\t" + current_line + "\n");
                      ++json.nber_not_found_genes;
                   } else {
-                     ArrayList<String> unique_ensembl_list = new ArrayList();
-                     ArrayList<String> unique_gene_list = new ArrayList();
-                     ArrayList<String> unique_alt_list = new ArrayList();
+                     ArrayList<String> unique_ensembl_list = new ArrayList<String>();
+                     ArrayList<String> unique_gene_list = new ArrayList<String>();
+                     ArrayList<String> unique_alt_list = new ArrayList<String>();
                      Iterator var35 = dbHit.iterator();
 
                      while(true) {
