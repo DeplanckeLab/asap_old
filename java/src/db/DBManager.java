@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import model.Parameters;
 import parsing.model.Gene;
 import tools.Utils;
@@ -110,7 +111,7 @@ public class DBManager {
    }
 
    public static HashMap<String, ArrayList<Gene>> getGenesInDB() {
-      HashMap<String, ArrayList<Gene>> genes = new HashMap();
+      HashMap<String, ArrayList<Gene>> genes = new HashMap<String, ArrayList<Gene>>();
       connect();
       Statement stmt = null;
 
@@ -122,7 +123,7 @@ public class DBManager {
          label127:
          while(true) {
             Gene g;
-            ArrayList gene_list;
+            ArrayList<Gene> gene_list;
             do {
                if (!rs.next()) {
                   rs.close();
@@ -139,16 +140,16 @@ public class DBManager {
                g.alt_names = rs.getString("alt_names");
                String ensUp = g.ensembl_id.toUpperCase();
                String nameUp = g.name.toUpperCase();
-               gene_list = (ArrayList)genes.get(ensUp);
+               gene_list = (ArrayList<Gene>)genes.get(ensUp);
                if (gene_list == null) {
-                  gene_list = new ArrayList();
+                  gene_list = new ArrayList<Gene>();
                }
 
                gene_list.add(g);
                genes.put(ensUp, gene_list);
-               gene_list = (ArrayList)genes.get(nameUp);
+               gene_list = (ArrayList<Gene>)genes.get(nameUp);
                if (gene_list == null) {
-                  gene_list = new ArrayList();
+                  gene_list = new ArrayList<Gene>();
                }
 
                gene_list.add(g);
@@ -162,9 +163,9 @@ public class DBManager {
             for(int var10 = 0; var10 < var11; ++var10) {
                String gene = var12[var10];
                String geneUp = gene.toUpperCase();
-               gene_list = (ArrayList)genes.get(geneUp);
+               gene_list = (ArrayList<Gene>)genes.get(geneUp);
                if (gene_list == null) {
-                  gene_list = new ArrayList();
+                  gene_list = new ArrayList<Gene>();
                }
 
                gene_list.add(g);
@@ -191,6 +192,7 @@ public class DBManager {
       try {
          Class.forName(JDBC_DRIVER);
          System.out.print("Connecting to database...");
+         System.out.println("URL = " + URL);
          conn = DriverManager.getConnection(URL);
          System.out.println("Connected!");
       } catch (Exception var1) {

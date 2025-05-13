@@ -42,3 +42,4 @@ src/package-lock.json
 #.byebug_history
 
 
+/bin/

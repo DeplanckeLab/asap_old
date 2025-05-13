@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="java/src"/>
+	<classpathentry kind="lib" path="java/lib/commons-net-3.5.jar"/>
+	<classpathentry kind="lib" path="java/lib/gson-2.8.0.jar"/>
+	<classpathentry kind="lib" path="java/lib/Jama-1.0.3.jar"/>
+	<classpathentry kind="lib" path="java/lib/jblas-1.2.3.jar"/>
+	<classpathentry kind="lib" path="java/lib/JRI.jar"/>
+	<classpathentry kind="lib" path="java/lib/jsc-1.0.jar"/>
+	<classpathentry kind="lib" path="java/lib/jujutsu.tsne-2.3.0.jar"/>
+	<classpathentry kind="lib" path="java/lib/sis-utility-0.7.jar"/>
+	<classpathentry kind="lib" path="src/app/lib/ASAP.jar"/>
+	<classpathentry kind="lib" path="src/lib/ASAP.jar"/>
+	<classpathentry kind="lib" path="src/lib/Enrichment.jar"/>
+	<classpathentry kind="lib" path="src/lib/parsing.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
