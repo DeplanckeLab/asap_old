@@ -269,7 +269,7 @@ public class EnsemblDB {
          HashMap<Integer, String> releases = urls.get(s);
 
          for(int i = 43; i <= 87; ++i) {
-            String url = (String)releases.get(new Integer(i));
+            String url = releases.get(new Integer(i));
             if (url == null) {
                url = "NA";
             }

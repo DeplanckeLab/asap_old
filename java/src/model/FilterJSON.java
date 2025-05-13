@@ -10,8 +10,8 @@ public class FilterJSON {
    public int nber_genes = 0;
    public int nber_filtered_genes = 0;
    public long nber_zeros = 0L;
-   public ArrayList<DataPlots> list_plots = new ArrayList();
-   public ArrayList<DataWarnings> warnings = new ArrayList();
+   public ArrayList<DataPlots> list_plots = new ArrayList<>();
+   public ArrayList<DataWarnings> warnings = new ArrayList<>();
    public String info = "";
 
    public void writeJSON() {

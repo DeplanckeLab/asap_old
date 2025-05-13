@@ -107,27 +107,27 @@ public class Enrichment {
       label85:
       switch($SWITCH_TABLE$enrichment$model$Model()[Parameters.enrichModel.ordinal()]) {
       case 2:
-         Iterator var6 = data_pathways.keySet().iterator();
+         Iterator<String> var6 = data_pathways.keySet().iterator();
 
          while(true) {
             if (!var6.hasNext()) {
                break label85;
             }
 
-            String path = (String)var6.next();
+            String path = var6.next();
             Pathway p = (Pathway)data_pathways.get(path);
             res.pathways[k] = p.id;
             res.descriptions[k] = p.description;
             res.urls[k] = p.url;
             i = 0;
-            Iterator var10 = p.listGenes.iterator();
+            Iterator<String> var10 = p.listGenes.iterator();
 
             while(var10.hasNext()) {
-               String gene = (String)var10.next();
-               Iterator var12 = genesToEnrich.iterator();
+               String gene = var10.next();
+               Iterator<String> var12 = genesToEnrich.iterator();
 
                while(var12.hasNext()) {
-                  String g = (String)var12.next();
+                  String g = var12.next();
                   if (gene.equals(g)) {
                      ++i;
                   }

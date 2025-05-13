@@ -10,8 +10,8 @@ class DataWarnings {
       String res = "[";
 
       DataWarnings w;
-      for(Iterator var3 = warnings.iterator(); var3.hasNext(); res = res + "{\"message\":\"" + w.message + "\"},") {
-         w = (DataWarnings)var3.next();
+      for(Iterator<DataWarnings> var3 = warnings.iterator(); var3.hasNext(); res = res + "{\"message\":\"" + w.message + "\"},") {
+         w = var3.next();
       }
 
       if (!res.equals("[")) {

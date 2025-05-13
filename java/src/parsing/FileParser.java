@@ -307,12 +307,12 @@ public class FileParser {
 
                         json.reads_per_cell.put(json.cell_names_parsed[gIndex], t + (int)rv);
                         if (!isERCC) {
-                           HashMap map;
+                           HashMap<String, Integer> map;
                            Integer c;
                            if (biotype != null) {
-                              map = (HashMap)json.biotypes.get(biotype);
+                              map = json.biotypes.get(biotype);
                               if (map == null) {
-                                 map = new HashMap();
+                                 map = new HashMap<String, Integer>();
                               }
 
                               c = (Integer)map.get(json.cell_names_parsed[gIndex]);
@@ -325,9 +325,9 @@ public class FileParser {
                            }
 
                            if (chr != null) {
-                              map = (HashMap)json.chrs.get(chr);
+                              map = json.chrs.get(chr);
                               if (map == null) {
-                                 map = new HashMap();
+                                 map = new HashMap<String, Integer>();
                               }
 
                               c = (Integer)map.get(json.cell_names_parsed[gIndex]);
@@ -398,10 +398,10 @@ public class FileParser {
       writeDuplicatedGenes(geneDups);
       writeGeneNamesJSON(genes);
       json.nber_unique_genes = geneDups.size();
-      Iterator var47 = geneDups.keySet().iterator();
+      Iterator<String> var47 = geneDups.keySet().iterator();
 
       while(var47.hasNext()) {
-         String gene = (String)var47.next();
+         String gene = var47.next();
          if ((Integer)geneDups.get(gene) != 1) {
             ++json.nber_duplicated_genes;
          }
@@ -533,10 +533,10 @@ public class FileParser {
    public static void writeDuplicatedGenes(HashMap<String, Integer> geneDups) {
       try {
          BufferedWriter bw = new BufferedWriter(new FileWriter(Parameters.outputFolder + "duplicated_genes.txt"));
-         Iterator var3 = geneDups.keySet().iterator();
+         Iterator<String> var3 = geneDups.keySet().iterator();
 
          while(var3.hasNext()) {
-            String geneKey = (String)var3.next();
+            String geneKey = var3.next();
             Integer nb = (Integer)geneDups.get(geneKey);
             if (nb > 1) {
                bw.write(geneKey + "\t" + nb + "\n");

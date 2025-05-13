@@ -11,8 +11,8 @@ class DataPlots {
       String res = "[";
 
       DataPlots p;
-      for(Iterator var3 = plots.iterator(); var3.hasNext(); res = res + "{\"name\":\"" + p.name + "\",\"description\":\"" + p.description + "\"},") {
-         p = (DataPlots)var3.next();
+      for(Iterator<DataPlots> var3 = plots.iterator(); var3.hasNext(); res = res + "{\"name\":\"" + p.name + "\",\"description\":\"" + p.description + "\"},") {
+         p = var3.next();
       }
 
       if (!res.equals("[")) {

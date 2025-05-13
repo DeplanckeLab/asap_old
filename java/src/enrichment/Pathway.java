@@ -6,5 +6,5 @@ class Pathway {
    public String id;
    public String url;
    public String description;
-   public HashSet<String> listGenes = new HashSet();
+   public HashSet<String> listGenes = new HashSet<String>();
 }

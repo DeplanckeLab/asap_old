@@ -36,7 +36,7 @@ public class CreateDLFile {
    }
 
    public static void getGenesFromJSON(String JSONFile) {
-      gene_names = new ArrayList();
+      gene_names = new ArrayList<>();
 
       try {
          Gson gson = new Gson();

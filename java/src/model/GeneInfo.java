@@ -2,13 +2,14 @@ package model;
 
 import java.util.HashSet;
 import java.util.Iterator;
+
 import org.apache.sis.measure.Range;
 import org.apache.sis.util.collection.RangeSet;
 
 public class GeneInfo {
    public String gene_id;
    public String gene_name;
-   public HashSet<String> alternate_names = new HashSet();
+   public HashSet<String> alternate_names = new HashSet<String>();
    public String biotype = null;
    public long start;
    public long end;
@@ -19,9 +20,9 @@ public class GeneInfo {
    public long getLength() {
       long sum = 0L;
 
-      Range r;
-      for(Iterator var4 = this.exon_id.iterator(); var4.hasNext(); sum += (Long)r.getMaxValue() - (Long)r.getMinValue() + 1L) {
-         r = (Range)var4.next();
+      Range<Long> r;
+      for(Iterator<Range<Long>> var4 = this.exon_id.iterator(); var4.hasNext(); sum += (Long)r.getMaxValue() - (Long)r.getMinValue() + 1L) {
+         r = var4.next();
       }
 
       return sum;
@@ -30,10 +31,10 @@ public class GeneInfo {
    public void setGeneLengthToExons() {
       this.start = Long.MAX_VALUE;
       this.end = Long.MIN_VALUE;
-      Iterator var2 = this.exon_id.iterator();
+      Iterator<Range<Long>> var2 = this.exon_id.iterator();
 
       while(var2.hasNext()) {
-         Range<Long> r = (Range)var2.next();
+         Range<Long> r = var2.next();
          if ((Long)r.getMaxValue() > this.end) {
             this.end = (Long)r.getMaxValue();
          }

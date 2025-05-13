@@ -161,7 +161,6 @@ public static void geneNameConversion(String organism) throws IOException {
       br.close();
    }
 
-	@SuppressWarnings("deprecation")
 	public static void fetchGenesInPathway(String pathway) throws IOException 
 	{
 		URL url = new URL("http://rest.kegg.jp/link/genes/" + pathway);
@@ -176,7 +175,6 @@ public static void geneNameConversion(String organism) throws IOException {
 		br.close();
 	}
 
-   @SuppressWarnings("deprecation")
    public static void fetchKEGGPathways(String organism) throws IOException {
       URL url = new URL("http://rest.kegg.jp/list/pathway/" + organism);
       URLConnection urlc = url.openConnection();

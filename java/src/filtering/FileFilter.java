@@ -445,7 +445,7 @@ public class FileFilter {
       double[] sizeFactors = new double[filtJSON.nber_cells];
 
       for(int i = 0; i < filtJSON.nber_cells; ++i) {
-         ArrayList<Double> sub = new ArrayList();
+         ArrayList<Double> sub = new ArrayList<>();
 
          int j;
          for(j = 0; j < parsJSON.nber_genes; ++j) {
