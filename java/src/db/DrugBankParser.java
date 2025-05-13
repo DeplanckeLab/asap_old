@@ -20,10 +20,10 @@ import org.xml.sax.SAXException;
 
 public class DrugBankParser {
    public static HashSet<String> accepted_organisms;
-   public static HashMap<String, String> drug_description = new HashMap<String, String>();
+   public static HashMap<String, String> drug_description = new HashMap();
 
    public static void setOrganism(String organism) {
-      accepted_organisms = new HashSet<String>();
+      accepted_organisms = new HashSet();
       switch(organism.hashCode()) {
       case 103606:
          if (organism.equals("hsa")) {
@@ -60,26 +60,26 @@ public class DrugBankParser {
       setOrganism(organism);
       BufferedWriter bw = new BufferedWriter(new FileWriter(outputGMTFile));
       HashMap<String, ArrayList<String>> assoc = loadDataAssoc(associationFile);
-      Iterator<String> it = assoc.keySet().iterator();
+      Iterator var6 = assoc.keySet().iterator();
 
       while(true) {
          String geneset;
-         ArrayList<String> genes;
+         ArrayList genes;
          do {
-            if (!it.hasNext()) {
+            if (!var6.hasNext()) {
                bw.close();
                return;
             }
 
-            geneset = it.next();
-            genes = assoc.get(geneset);
+            geneset = (String)var6.next();
+            genes = (ArrayList)assoc.get(geneset);
          } while(genes.size() <= 0);
 
          bw.write(geneset + "\t" + (String)drug_description.get(geneset) + "\thttp://www.drugbank.ca/drugs/" + geneset);
-         Iterator<String> it2 = genes.iterator();
+         Iterator var9 = genes.iterator();
 
-         while(it2.hasNext()) {
-            String gene = it2.next();
+         while(var9.hasNext()) {
+            String gene = (String)var9.next();
             bw.write("\t" + gene);
          }
 
@@ -91,7 +91,7 @@ public class DrugBankParser {
       if (filename == null) {
          return null;
       } else {
-         HashMap<String, ArrayList<String>> data_assoc = new HashMap<String, ArrayList<String>>();
+         HashMap data_assoc = new HashMap();
 
          try {
             File xmlFile = new File(filename);
@@ -104,7 +104,7 @@ public class DrugBankParser {
             for(int d = 0; d < drugs.getLength(); ++d) {
                Node dNode = drugs.item(d);
                if (dNode.getNodeName().equals("drug") && dNode.getNodeType() == 1) {
-                  ArrayList<String> genes = new ArrayList<String>();
+                  ArrayList<String> genes = new ArrayList();
                   Element drug = (Element)dNode;
                   String drugId = drug.getElementsByTagName("drugbank-id").item(0).getTextContent();
                   drug_description.put(drugId, drug.getElementsByTagName("name").item(0).getTextContent());

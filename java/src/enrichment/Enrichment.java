@@ -1,9 +1,5 @@
 package enrichment;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
-import enrichment.model.Model;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,15 +12,21 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+
+import enrichment.model.Model;
 import jsc.contingencytables.ContingencyTable2x2;
 import jsc.contingencytables.FishersExactTest;
 import model.Parameters;
 import tools.Utils;
 
 public class Enrichment {
-   private static HashMap<String, Pathway> data_pathways = new HashMap();
-   private static HashMap<String, Boolean> backgroundGenes = new HashMap();
-   private static HashSet<String> genesToEnrich = new HashSet();
+   private static HashMap<String, Pathway> data_pathways = new HashMap<String, Pathway>();
+   private static HashMap<String, Boolean> backgroundGenes = new HashMap<String, Boolean>();
+   private static HashSet<String> genesToEnrich = new HashSet<String>();
    private static String warningMess = null;
    // $FF: synthetic field
    private static int[] $SWITCH_TABLE$enrichment$model$Model;
@@ -252,13 +254,9 @@ public class Enrichment {
 
          for(int j = 0; j < index.length; ++j) {
             double adjP = adj_p_value[idx[j]];
-            if (adjP < min) {
-               min = adjP;
-            } else {
-               adjP = min;
-            }
-
-            adj_p_value[idx[j]] = Math.min(1.0D, adjP);
+            if (adjP < min) min = adjP;
+            else adjP = min;
+            adj_p_value[idx[i]] = Math.min(1.0D, adjP);
          }
 
          return adj_p_value;
@@ -385,7 +383,6 @@ public class Enrichment {
          var9.printStackTrace();
          System.exit(-1);
       }
-
    }
 
    // $FF: synthetic method

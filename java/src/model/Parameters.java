@@ -1,7 +1,7 @@
 package model;
 
 import db.DBManager;
-import dim_reduction.model.Model;
+import filtering.model.Model;
 import java.io.File;
 import parsing.model.ColumnName;
 
@@ -15,9 +15,7 @@ public class Parameters {
    public static int organism = 1;
    public static int taxon = -1;
    public static float pcKept = -1.0F;
-   public static Model dimReducModel = null;
-   public static int perplexity = -1;
-   public static filtering.model.Model filtModel = null;
+   public static Model filtModel = null;
    public static int nbCountsPerCell = -1;
    public static int nbCellsDetected = -1;
    public static String JSONFileName = null;
@@ -73,9 +71,6 @@ public class Parameters {
          break;
       case 8:
          loadFiltering(args);
-         break;
-      case 9:
-         loadDimensionReduction(args);
       }
 
    }
@@ -615,7 +610,7 @@ public class Parameters {
                   switch((var4 = args[i]).hashCode()) {
                   case -2046831209:
                      if (var4.equals("coeffofvar")) {
-                        filtModel = filtering.model.Model.COEFFOFVAR;
+                        filtModel = Model.COEFFOFVAR;
                         ++i;
 
                         try {
@@ -635,13 +630,13 @@ public class Parameters {
                      break;
                   case -995742506:
                      if (var4.equals("pagoda")) {
-                        filtModel = filtering.model.Model.PAGODA;
+                        filtModel = Model.PAGODA;
                         continue;
                      }
                      break;
                   case 98720:
                      if (var4.equals("cpm")) {
-                        filtModel = filtering.model.Model.CPM;
+                        filtModel = Model.CPM;
                         ++i;
 
                         try {
@@ -670,7 +665,7 @@ public class Parameters {
                      break;
                   case 116519:
                      if (var4.equals("var")) {
-                        filtModel = filtering.model.Model.VAR;
+                        filtModel = Model.VAR;
                         ++i;
 
                         try {
@@ -690,13 +685,13 @@ public class Parameters {
                      break;
                   case 3387192:
                      if (var4.equals("none")) {
-                        filtModel = filtering.model.Model.NONE;
+                        filtModel = Model.NONE;
                         continue;
                      }
                      break;
                   case 109230003:
                      if (var4.equals("scLVM")) {
-                        filtModel = filtering.model.Model.SCLVM;
+                        filtModel = Model.SCLVM;
                         ++i;
 
                         try {
@@ -724,7 +719,7 @@ public class Parameters {
                      break;
                   case 496271375:
                      if (var4.equals("expressed")) {
-                        filtModel = filtering.model.Model.EXPRESSED;
+                        filtModel = Model.EXPRESSED;
                         ++i;
 
                         try {
@@ -744,7 +739,7 @@ public class Parameters {
                      break;
                   case 1910968715:
                      if (var4.equals("scanupc")) {
-                        filtModel = filtering.model.Model.SCANUPC;
+                        filtModel = Model.SCANUPC;
                         continue;
                      }
                   }
@@ -802,128 +797,24 @@ public class Parameters {
       }
 
       (new File(outputFolder)).mkdirs();
-      if (filtModel == filtering.model.Model.CPM && (nbCountsPerCell == -1 || nbCellsDetected == -1)) {
+      if (filtModel == Model.CPM && (nbCountsPerCell == -1 || nbCellsDetected == -1)) {
          new ErrorJSON("The '-m cpm' model should be followed by two Integers: 'nbCountsPerCell nbCellsDetected'.");
       }
 
-      if (filtModel == filtering.model.Model.EXPRESSED && pcKept == -1.0F) {
+      if (filtModel == Model.EXPRESSED && pcKept == -1.0F) {
          new ErrorJSON("The '-m expressed' model should be followed by one float: 'pcKept'.");
       }
 
-      if (filtModel == filtering.model.Model.VAR && pcKept == -1.0F) {
+      if (filtModel == Model.VAR && pcKept == -1.0F) {
          new ErrorJSON("The '-m var' model should be followed by one float: 'pcKept'.");
       }
 
-      if (filtModel == filtering.model.Model.COEFFOFVAR && pcKept == -1.0F) {
+      if (filtModel == Model.COEFFOFVAR && pcKept == -1.0F) {
          new ErrorJSON("The '-m coeffofvar' model should be followed by one float: 'pcKept'.");
       }
 
-      if (filtModel == filtering.model.Model.SCLVM && fitModel == null) {
+      if (filtModel == Model.SCLVM && fitModel == null) {
          new ErrorJSON("The '-m scLVM' model should be followed by the 2 following arguments: 'fitmodel' [log, logvar] and 'erccFile' ['file path' or 'null'].");
-      }
-
-   }
-
-   public static void loadDimensionReduction(String[] args) {
-      for(int i = 0; i < args.length; ++i) {
-         String arg = args[i];
-         if (arg.startsWith("-")) {
-            switch(arg.hashCode()) {
-            case 1497:
-               if (arg.equals("-f")) {
-                  ++i;
-                  fileName = args[i];
-                  fileName = fileName.replaceAll("\\\\", "/");
-                  continue;
-               }
-               break;
-            case 1504:
-               if (arg.equals("-m")) {
-                  ++i;
-                  String var4;
-                  switch((var4 = args[i]).hashCode()) {
-                  case 107964:
-                     if (var4.equals("mds")) {
-                        dimReducModel = Model.MDS;
-                        continue;
-                     }
-                     break;
-                  case 110798:
-                     if (var4.equals("pca")) {
-                        dimReducModel = Model.PCA;
-                        continue;
-                     }
-                     break;
-                  case 3569782:
-                     if (var4.equals("tsne")) {
-                        dimReducModel = Model.TSNE;
-                        ++i;
-
-                        try {
-                           perplexity = Integer.parseInt(args[i]);
-                        } catch (NumberFormatException var6) {
-                           System.err.println("The '-m tsne' model should be followed by an Integer: 'perplexity'. The value you entered is not an Integer: " + args[i]);
-                           System.exit(-1);
-                        } catch (ArrayIndexOutOfBoundsException var7) {
-                           new ErrorJSON("The '-m tsne' model should be followed by an Integer: 'perplexity'. This parameter is missing!");
-                        }
-
-                        if (perplexity <= 0) {
-                           new ErrorJSON("The '-m tsne' model should be followed by an Integer: 'perplexity' greater than 0. You entered '" + perplexity + "'.");
-                        }
-                        continue;
-                     }
-                     break;
-                  case 3738666:
-                     if (var4.equals("zifa")) {
-                        dimReducModel = Model.ZIFA;
-                        continue;
-                     }
-                  }
-
-                  new ErrorJSON("The entered model, " + args[i] + ", does not exist!\nIt should be one of the following: [pca, mds, tsne, zifa]");
-                  continue;
-               }
-               break;
-            case 1506:
-               if (arg.equals("-o")) {
-                  ++i;
-                  outputFolder = args[i];
-                  outputFolder = outputFolder.replaceAll("\\\\", "/");
-                  if (!outputFolder.endsWith("/")) {
-                     outputFolder = outputFolder + "/";
-                  }
-
-                  (new File(outputFolder)).mkdirs();
-                  continue;
-               }
-            }
-
-            System.err.println("Unused argument: " + arg);
-         }
-      }
-
-      if (dimReducModel == null || outputFolder == null || fileName == null) {
-         printHelp(Mode.DimensionReduction);
-         String error = "Filtering cannot be run because parameters are missing:\n";
-         if (dimReducModel == null) {
-            error = error + "No model is specified, please choose a model by using the '-m' option.\n";
-         }
-
-         if (fileName == null) {
-            error = error + "No file is specified, please choose a data file by using the '-f' option.\n";
-         }
-
-         if (outputFolder == null) {
-            error = error + "No output folder is specified, please choose an output file by using the '-o' option.\n";
-         }
-
-         new ErrorJSON(error);
-      }
-
-      (new File(outputFolder)).mkdirs();
-      if (dimReducModel == Model.TSNE && perplexity == -1) {
-         new ErrorJSON("The '-m tsne' model should be followed by an Integer: 'perplexity'. This parameter is missing!");
       }
 
    }
@@ -984,13 +875,7 @@ public class Parameters {
          System.out.println("-json %s \t\tInput JSON file from parsing step.");
          System.out.println("-o %s \t\tOutput folder.");
          System.out.println("-f %s \t\tFile to parse.");
-         System.out.println("-m %s \t\tModel to use for filtering. It should be one of the following: [none, expressed, coeffofvar, var, pagoda, scanupc, cpm, scLVM]");
-         break;
-      case 9:
-         System.out.println("Dimension Reduction Mode\n\nOptions:");
-         System.out.println("-o %s \t\tOutput folder.");
-         System.out.println("-f %s \t\tFile to parse.");
-         System.out.println("-m %s \t\tModel to use for dimension reduction. It should be one of the following: [pca, mds, tsne, zifa]");
+         System.out.println("-m %s \t\tModel to use for filtering. It should be one of the following: [none, expressed, coeffofvar, var, pagoda, scanupc, cpm $, scLVM]");
       }
 
       System.out.println();
@@ -1006,26 +891,21 @@ public class Parameters {
 
          try {
             var0[Mode.CreateDLFile.ordinal()] = 3;
-         } catch (NoSuchFieldError var9) {
-         }
-
-         try {
-            var0[Mode.CreateEnrichmentDB.ordinal()] = 5;
          } catch (NoSuchFieldError var8) {
          }
 
          try {
-            var0[Mode.CreateEnsemblDB.ordinal()] = 6;
+            var0[Mode.CreateEnrichmentDB.ordinal()] = 5;
          } catch (NoSuchFieldError var7) {
          }
 
          try {
-            var0[Mode.CreateGenesDB.ordinal()] = 4;
+            var0[Mode.CreateEnsemblDB.ordinal()] = 6;
          } catch (NoSuchFieldError var6) {
          }
 
          try {
-            var0[Mode.DimensionReduction.ordinal()] = 9;
+            var0[Mode.CreateGenesDB.ordinal()] = 4;
          } catch (NoSuchFieldError var5) {
          }
 

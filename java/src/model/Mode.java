@@ -8,6 +8,5 @@ public enum Mode {
    CreateEnrichmentDB,
    CreateEnsemblDB,
    Enrichment,
-   Filtering,
-   DimensionReduction;
+   Filtering;
 }

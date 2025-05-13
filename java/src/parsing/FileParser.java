@@ -101,10 +101,6 @@ public class FileParser {
             }
          }
 
-         if (cell_names.size() > 50000) {
-            error("Your dataset contains more than 50'000 cells. Sorry, but this is not yet handled by ASAP (HDF5 encoding is in development for handling big datasets)");
-         }
-
          for(; line != null; line = br.readLine()) {
             ++current_line;
             tokens = line.split(Parameters.delimiter);

@@ -2,7 +2,6 @@ import db.Config;
 import db.DBManager;
 import db.EnsemblDB;
 import db.GODatabase;
-import dim_reduction.FileDimReduc;
 import enrichment.Enrichment;
 import filtering.FileFilter;
 import model.Mode;
@@ -75,11 +74,6 @@ public class ASAP {
          t = System.currentTimeMillis();
          FileFilter.filter();
          System.out.println("Filtering time: " + Utils.toReadableTime(System.currentTimeMillis() - t));
-         break;
-      case 9:
-         t = System.currentTimeMillis();
-         FileDimReduc.reduceDimension();
-         System.out.println("Dimension reduction time: " + Utils.toReadableTime(System.currentTimeMillis() - t));
       }
 
    }
@@ -98,12 +92,6 @@ public class ASAP {
                   ++i;
                   String mode = args[i];
                   switch(mode.hashCode()) {
-                  case -1663577139:
-                     if (mode.equals("DimensionReduction")) {
-                        m = Mode.DimensionReduction;
-                        continue;
-                     }
-                     break;
                   case -1329636288:
                      if (mode.equals("CreateGenesDB")) {
                         m = Mode.CreateGenesDB;
@@ -184,26 +172,21 @@ public class ASAP {
 
          try {
             var0[Mode.CreateDLFile.ordinal()] = 3;
-         } catch (NoSuchFieldError var9) {
-         }
-
-         try {
-            var0[Mode.CreateEnrichmentDB.ordinal()] = 5;
          } catch (NoSuchFieldError var8) {
          }
 
          try {
-            var0[Mode.CreateEnsemblDB.ordinal()] = 6;
+            var0[Mode.CreateEnrichmentDB.ordinal()] = 5;
          } catch (NoSuchFieldError var7) {
          }
 
          try {
-            var0[Mode.CreateGenesDB.ordinal()] = 4;
+            var0[Mode.CreateEnsemblDB.ordinal()] = 6;
          } catch (NoSuchFieldError var6) {
          }
 
          try {
-            var0[Mode.DimensionReduction.ordinal()] = 9;
+            var0[Mode.CreateGenesDB.ordinal()] = 4;
          } catch (NoSuchFieldError var5) {
          }
 

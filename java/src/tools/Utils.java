@@ -23,18 +23,6 @@ public class Utils {
       return df.format(n);
    }
 
-   public static double[][] t(double[][] matrix) {
-      double[][] output = new double[matrix[0].length][matrix.length];
-
-      for(int i = 0; i < matrix.length; ++i) {
-         for(int j = 0; j < matrix[i].length; ++j) {
-            output[j][i] = matrix[i][j];
-         }
-      }
-
-      return output;
-   }
-
    public static void listdirs(String directoryName, ArrayList<File> files) {
       File directory = new File(directoryName);
       File[] fList = directory.listFiles();
@@ -86,8 +74,8 @@ public class Utils {
       double sum = 0.0D;
 
       Integer a;
-      for(Iterator var4 = data.iterator(); var4.hasNext(); sum += (double)a) {
-         a = (Integer)var4.next();
+      for(Iterator<Integer> it = data.iterator(); it.hasNext(); sum += (double)a) {
+         a = it.next();
       }
 
       return sum / (double)data.size();
@@ -245,13 +233,13 @@ public class Utils {
    }
 
    public static String[] sortD(Map<String, Double> map) {
-      List<Double> values = new ArrayList(map.values());
+      List<Double> values = new ArrayList<Double>(map.values());
       Collections.sort(values, Collections.reverseOrder());
       String[] sortedIndexes = new String[values.size()];
-      Iterator var4 = map.keySet().iterator();
+      Iterator<String> it = map.keySet().iterator();
 
-      while(var4.hasNext()) {
-         String key = (String)var4.next();
+      while(it.hasNext()) {
+         String key = it.next();
          int index = values.indexOf(map.get(key));
          sortedIndexes[index] = key;
          values.set(index, (Double)null);
@@ -275,13 +263,13 @@ public class Utils {
    }
 
    public static String[] sortI(Map<String, Integer> map) {
-      List<Integer> values = new ArrayList(map.values());
+      List<Integer> values = new ArrayList<Integer>(map.values());
       Collections.sort(values, Collections.reverseOrder());
       String[] sortedIndexes = new String[values.size()];
-      Iterator var4 = map.keySet().iterator();
+      Iterator<String> it = map.keySet().iterator();
 
-      while(var4.hasNext()) {
-         String key = (String)var4.next();
+      while(it.hasNext()) {
+         String key = it.next();
          int index = values.indexOf(map.get(key));
          sortedIndexes[index] = key;
          values.set(index, (Integer)null);
@@ -291,13 +279,13 @@ public class Utils {
    }
 
    public static String[] sortL(Map<String, Long> map) {
-      List<Long> values = new ArrayList(map.values());
+      List<Long> values = new ArrayList<Long>(map.values());
       Collections.sort(values, Collections.reverseOrder());
       String[] sortedIndexes = new String[values.size()];
-      Iterator var4 = map.keySet().iterator();
+      Iterator<String> it = map.keySet().iterator();
 
-      while(var4.hasNext()) {
-         String key = (String)var4.next();
+      while(it.hasNext()) {
+         String key = it.next();
          int index = values.indexOf(map.get(key));
          sortedIndexes[index] = key;
          values.set(index, (Long)null);

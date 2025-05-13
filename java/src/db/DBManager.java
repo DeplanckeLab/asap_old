@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import model.Parameters;
 import parsing.model.Gene;
 import tools.Utils;
@@ -147,7 +146,7 @@ public class DBManager {
 
                gene_list.add(g);
                genes.put(ensUp, gene_list);
-               gene_list = (ArrayList<Gene>)genes.get(nameUp);
+               gene_list = genes.get(nameUp);
                if (gene_list == null) {
                   gene_list = new ArrayList<Gene>();
                }
@@ -163,7 +162,7 @@ public class DBManager {
             for(int var10 = 0; var10 < var11; ++var10) {
                String gene = var12[var10];
                String geneUp = gene.toUpperCase();
-               gene_list = (ArrayList<Gene>)genes.get(geneUp);
+               gene_list = genes.get(geneUp);
                if (gene_list == null) {
                   gene_list = new ArrayList<Gene>();
                }
@@ -191,8 +190,7 @@ public class DBManager {
    public static void connect() {
       try {
          Class.forName(JDBC_DRIVER);
-         System.out.print("Connecting to database...");
-         System.out.println("URL = " + URL);
+         System.out.print("Connecting to database..., URL = " + URL);
          conn = DriverManager.getConnection(URL);
          System.out.println("Connected!");
       } catch (Exception var1) {
