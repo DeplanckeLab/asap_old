@@ -22,8 +22,8 @@ import org.apache.sis.util.collection.RangeSet;
 
 public class EnsemblDB {
    public static FTPClient f = null;
-   public static HashMap<String, HashMap<Integer, String>> urls = new HashMap();
-   public static HashMap<String, GeneInfo> geneInfo = new HashMap();
+   public static HashMap<String, HashMap<Integer, String>> urls = new HashMap<String, HashMap<Integer, String>>();
+   public static HashMap<String, GeneInfo> geneInfo = new HashMap<String, GeneInfo>();
 
    public static void main(String[] args) throws Exception {
       generateSpeciesURLFromEnsembl();
@@ -32,7 +32,7 @@ public class EnsemblDB {
    public static void readSpecies() throws IOException {
       BufferedReader br = new BufferedReader(new FileReader("species.txt"));
       String line = br.readLine();
-      HashMap<Integer, Integer> lineToRelease = new HashMap();
+      HashMap<Integer, Integer> lineToRelease = new HashMap<Integer, Integer>();
       String[] header = line.split("\t");
 
       for(int i = 1; i < header.length; ++i) {
@@ -41,7 +41,7 @@ public class EnsemblDB {
 
       for(line = br.readLine(); line != null; line = br.readLine()) {
          String[] tokens = line.split("\t");
-         HashMap<Integer, String> urlss = new HashMap();
+         HashMap<Integer, String> urlss = new HashMap<Integer, String>();
 
          for(int i = 1; i < tokens.length; ++i) {
             urlss.put((Integer)lineToRelease.get(i), tokens[i]);
@@ -57,10 +57,10 @@ public class EnsemblDB {
       try {
          readSpecies();
          System.out.println("Computing gene info for species " + Parameters.organism_S + " ...");
-         HashMap<Integer, String> toLoad = (HashMap)urls.get(Parameters.organism_S);
+         HashMap<Integer, String> toLoad = urls.get(Parameters.organism_S);
 
          String gene_id;
-         Iterator var4;
+         Iterator<String> it;
          GeneInfo g;
          for(int i = 43; i <= 87; ++i) {
             String url = (String)toLoad.get(i);
@@ -68,10 +68,10 @@ public class EnsemblDB {
                System.out.println("Release " + i + " does not exist for species " + Parameters.organism_S);
             } else {
                downloadEnsembl((String)toLoad.get(i));
-               var4 = geneInfo.keySet().iterator();
+               it = geneInfo.keySet().iterator();
 
-               while(var4.hasNext()) {
-                  gene_id = (String)var4.next();
+               while(it.hasNext()) {
+                  gene_id = it.next();
                   g = (GeneInfo)geneInfo.get(gene_id);
                   long l = g.getLength();
                   if (l != 0L) {
@@ -85,18 +85,18 @@ public class EnsemblDB {
 
          BufferedWriter bw = new BufferedWriter(new FileWriter(Parameters.outputFolder + Parameters.organism_S + ".txt"));
          bw.write("Ensembl\tName\tAltNames\tBiotype\tGeneLength\tSumExonLength\tChr\n");
-         ArrayList<String> tmp = new ArrayList();
-         var4 = geneInfo.keySet().iterator();
+         ArrayList<String> tmp = new ArrayList<String>();
+         it = geneInfo.keySet().iterator();
 
-         while(var4.hasNext()) {
-            gene_id = (String)var4.next();
+         while(it.hasNext()) {
+            gene_id = it.next();
             tmp.add(gene_id);
          }
 
          Collections.sort(tmp);
 
-         for(var4 = tmp.iterator(); var4.hasNext(); bw.write(gene_id + "\t" + g.gene_name + "\t" + buildAltNamesString(g.alternate_names, g.gene_id.toUpperCase(), g.gene_name.toUpperCase()) + "\t" + g.biotype + "\t" + (g.end - g.start + 1L) + "\t" + g.sumExonLength + "\t" + g.chr + "\n")) {
-            gene_id = (String)var4.next();
+         for(it = tmp.iterator(); it.hasNext(); bw.write(gene_id + "\t" + g.gene_name + "\t" + buildAltNamesString(g.alternate_names, g.gene_id.toUpperCase(), g.gene_name.toUpperCase()) + "\t" + g.biotype + "\t" + (g.end - g.start + 1L) + "\t" + g.sumExonLength + "\t" + g.chr + "\n")) {
+            gene_id = it.next();
             g = (GeneInfo)geneInfo.get(gene_id);
             if (g.chr.equals("dmel_mitochondrion_genome")) {
                g.chr = "MT";
@@ -111,12 +111,12 @@ public class EnsemblDB {
    }
 
    private static String buildAltNamesString(HashSet<String> names, String ensNameUp, String geneNameUp) {
-      HashSet<String> unique = new HashSet();
+      HashSet<String> unique = new HashSet<String>();
       String res = "";
-      Iterator var6 = names.iterator();
+      Iterator<String> it = names.iterator();
 
-      while(var6.hasNext()) {
-         String n = (String)var6.next();
+      while(it.hasNext()) {
+         String n = it.next();
          String nUp = n.toUpperCase();
          if (!unique.contains(nUp)) {
             if (!nUp.equals(ensNameUp) && !nUp.equals(geneNameUp)) {
@@ -143,8 +143,8 @@ public class EnsemblDB {
          BufferedReader br = new BufferedReader(new InputStreamReader(gzipStream));
 
          String line;
-         for(Iterator var7 = geneInfo.keySet().iterator(); var7.hasNext(); ((GeneInfo)geneInfo.get(line)).exon_id = RangeSet.create(Long.class, true, true)) {
-            line = (String)var7.next();
+         for(Iterator<String> it = geneInfo.keySet().iterator(); it.hasNext(); ((GeneInfo)geneInfo.get(line)).exon_id = RangeSet.create(Long.class, true, true)) {
+            line = it.next();
          }
 
          for(line = br.readLine(); line != null; line = br.readLine()) {
@@ -219,10 +219,10 @@ public class EnsemblDB {
 
          br.close();
          if (!foundGeneAnnotation) {
-            Iterator var26 = geneInfo.keySet().iterator();
+            Iterator<String> it = geneInfo.keySet().iterator();
 
-            while(var26.hasNext()) {
-               String gene_id = (String)var26.next();
+            while(it.hasNext()) {
+               String gene_id = it.next();
                GeneInfo g = (GeneInfo)geneInfo.get(gene_id);
                if (g.exon_id.size() != 0) {
                   g.setGeneLengthToExons();
@@ -244,11 +244,11 @@ public class EnsemblDB {
          getGTF(i);
       }
 
-      ArrayList<String> species = new ArrayList();
-      Iterator var2 = urls.keySet().iterator();
+      ArrayList<String> species = new ArrayList<String>();
+      Iterator<String> it = urls.keySet().iterator();
 
-      while(var2.hasNext()) {
-         String s = (String)var2.next();
+      while(it.hasNext()) {
+         String s = it.next();
          species.add(s);
       }
 
@@ -261,12 +261,12 @@ public class EnsemblDB {
       }
 
       bw.write("\n");
-      Iterator var3 = species.iterator();
+      Iterator<String> it2 = species.iterator();
 
-      while(var3.hasNext()) {
-         String s = (String)var3.next();
+      while(it2.hasNext()) {
+         String s = it2.next();
          bw.write(s);
-         HashMap<Integer, String> releases = (HashMap)urls.get(s);
+         HashMap<Integer, String> releases = urls.get(s);
 
          for(int i = 43; i <= 87; ++i) {
             String url = (String)releases.get(new Integer(i));
@@ -311,9 +311,9 @@ public class EnsemblDB {
          for(int var9 = 0; var9 < var10; ++var9) {
             FTPFile fo = var11[var9];
             if (fo.getName().endsWith("gtf.gz") && fo.getName().indexOf("abinitio") == -1 && fo.getName().indexOf(".chr") == -1) {
-               HashMap<Integer, String> releases = (HashMap)urls.get(fi.getName());
+               HashMap<Integer, String> releases = urls.get(fi.getName());
                if (releases == null) {
-                  releases = new HashMap();
+                  releases = new HashMap<Integer, String>();
                }
 
                releases.put(release, url + fo.getName());
@@ -334,9 +334,9 @@ public class EnsemblDB {
          FTPFile fi = var6[var4];
          String name = fi.getName();
          name = name.substring(0, name.indexOf(".")).toLowerCase();
-         HashMap<Integer, String> releases = (HashMap)urls.get(name);
+         HashMap<Integer, String> releases = urls.get(name);
          if (releases == null) {
-            releases = new HashMap();
+            releases = new HashMap<Integer, String>();
          }
 
          releases.put(release, url + fi.getName());
@@ -361,9 +361,9 @@ public class EnsemblDB {
             FTPFile fo = var11[var9];
             String name = fi.getName();
             name = name.substring(0, name.indexOf("_", name.indexOf("_") + 1)).toLowerCase();
-            HashMap<Integer, String> releases = (HashMap)urls.get(name);
+            HashMap<Integer, String> releases = urls.get(name);
             if (releases == null) {
-               releases = new HashMap();
+               releases = new HashMap<Integer, String>();
             }
 
             releases.put(release, url + fo.getName());

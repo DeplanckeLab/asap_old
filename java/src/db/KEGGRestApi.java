@@ -22,30 +22,30 @@ public class KEGGRestApi {
    }
 
    public static void generateKEGGDB(String organism, String outputGMTFile) throws IOException {
-      keggDescription = new HashMap();
-      keggAnnot = new HashMap();
-      keggIDtoGene = new HashMap();
+      keggDescription = new HashMap<String, String>();
+      keggAnnot = new HashMap<String, ArrayList<String>>();
+      keggIDtoGene = new HashMap<String, String>();
       fetchKEGGPathways(organism);
       System.out.println(keggDescription.size() + " KEGG pathways were found.");
-      Iterator var3 = keggDescription.keySet().iterator();
+      Iterator<String> var3 = keggDescription.keySet().iterator();
 
       while(var3.hasNext()) {
-         String keggID = (String)var3.next();
+         String keggID = var3.next();
          fetchGenesInPathway(keggID);
       }
 
       geneNameConversion(organism);
       BufferedWriter bw = new BufferedWriter(new FileWriter(outputGMTFile));
-      Iterator var4 = keggAnnot.keySet().iterator();
+      Iterator<String> var4 = keggAnnot.keySet().iterator();
 
       while(var4.hasNext()) {
-         String geneset = (String)var4.next();
-         ArrayList<String> genes = (ArrayList)keggAnnot.get(geneset);
+         String geneset = var4.next();
+         ArrayList<String> genes = keggAnnot.get(geneset);
          bw.write(geneset + "\t" + (String)keggDescription.get(geneset) + "\thttp://www.genome.jp/dbget-bin/www_bget?" + geneset);
-         Iterator var7 = genes.iterator();
+         Iterator<String> var7 = genes.iterator();
 
          while(var7.hasNext()) {
-            String gene = (String)var7.next();
+            String gene = var7.next();
             bw.write("\t" + (String)keggIDtoGene.get(gene));
          }
 
@@ -55,7 +55,7 @@ public class KEGGRestApi {
       bw.close();
    }
 
-   public static void geneNameConversion(String organism) throws IOException {
+public static void geneNameConversion(String organism) throws IOException {
       URL url = new URL("http://rest.kegg.jp/list/" + organism);
       URLConnection urlc = url.openConnection();
       urlc.setDoOutput(true);
@@ -161,23 +161,22 @@ public class KEGGRestApi {
       br.close();
    }
 
-   public static void fetchGenesInPathway(String pathway) throws IOException {
-      URL url = new URL("http://rest.kegg.jp/link/genes/" + pathway);
-      URLConnection urlc = url.openConnection();
-      urlc.setDoOutput(true);
-      urlc.setAllowUserInteraction(false);
-      BufferedReader br = new BufferedReader(new InputStreamReader(urlc.getInputStream()));
-      String l = null;
-      ArrayList genes = new ArrayList();
+	@SuppressWarnings("deprecation")
+	public static void fetchGenesInPathway(String pathway) throws IOException 
+	{
+		URL url = new URL("http://rest.kegg.jp/link/genes/" + pathway);
+		URLConnection urlc = url.openConnection();
+		urlc.setDoOutput(true);
+		urlc.setAllowUserInteraction(false);
+		BufferedReader br = new BufferedReader(new InputStreamReader(urlc.getInputStream()));
+		String l = null;
+		ArrayList<String> genes = new ArrayList<String>();
+		while((l = br.readLine()) != null) genes.add(l.split("\t")[1]);
+		keggAnnot.put(pathway, genes);
+		br.close();
+	}
 
-      while((l = br.readLine()) != null) {
-         genes.add(l.split("\t")[1]);
-      }
-
-      keggAnnot.put(pathway, genes);
-      br.close();
-   }
-
+   @SuppressWarnings("deprecation")
    public static void fetchKEGGPathways(String organism) throws IOException {
       URL url = new URL("http://rest.kegg.jp/list/pathway/" + organism);
       URLConnection urlc = url.openConnection();

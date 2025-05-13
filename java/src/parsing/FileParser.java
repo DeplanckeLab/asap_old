@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipInputStream;
+
 import model.Parameters;
 import model.ParsingJSON;
 import parsing.model.ColumnName;
@@ -414,7 +416,7 @@ public class FileParser {
       json.writeOutputJSON();
    }
 
-   public static void parseAndExclude(ArrayList<String> emptyCells, String filename) {
+   public static void parseAndExclude(List<String> emptyCells, String filename) {
       try {
          File in = new File(Parameters.outputFolder + filename + ".tab");
          File tmp = new File(Parameters.outputFolder + filename + ".tmp.tab");
@@ -423,7 +425,7 @@ public class FileParser {
             BufferedWriter bw_tab = new BufferedWriter(new FileWriter(tmp));
             String[] header = br_tab.readLine().split("\t");
             bw_tab.write("Genes");
-            HashMap<Integer, Boolean> toBeRemoved = new HashMap();
+            HashMap<Integer, Boolean> toBeRemoved = new HashMap<>();
 
             for(int i = 1; i < header.length; ++i) {
                if (emptyCells.contains(header[i])) {
