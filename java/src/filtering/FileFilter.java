@@ -146,7 +146,7 @@ public class FileFilter {
                int val = Integer.parseInt(tokens[i]);
                if (val > 0) {
                   detect = true;
-                  int var10002 = expressedGenesPerSample[i - 1]++;
+                  expressedGenesPerSample[i - 1]++;
                } else {
                   ++nbZeros;
                }
@@ -290,7 +290,7 @@ public class FileFilter {
                }
             } else {
                for(i = 0; i < tokens.length - 1; ++i) {
-                  int var10002 = expressedGenesPerSample[i]++;
+                  expressedGenesPerSample[i]++;
                }
             }
 
@@ -352,7 +352,7 @@ public class FileFilter {
                }
             } else {
                for(i = 0; i < tokens.length - 1; ++i) {
-                  int var10002 = expressedGenesPerSample[i]++;
+                  expressedGenesPerSample[i]++;
                }
             }
 
@@ -419,7 +419,7 @@ public class FileFilter {
                }
             } else {
                for(i = 0; i < tokens.length - 1; ++i) {
-                  int var10002 = expressedGenesPerSample[i]++;
+                  expressedGenesPerSample[i]++;
                }
             }
 

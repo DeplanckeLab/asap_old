@@ -7,18 +7,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.zip.GZIPInputStream;
-import model.GeneInfo;
-import model.Parameters;
+
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.sis.util.collection.RangeSet;
+
+import model.GeneInfo;
+import model.Parameters;
 
 public class EnsemblDB {
    public static FTPClient f = null;
@@ -29,86 +31,92 @@ public class EnsemblDB {
       generateSpeciesURLFromEnsembl();
    }
 
-   public static void readSpecies() throws IOException {
-      BufferedReader br = new BufferedReader(new FileReader("species.txt"));
-      String line = br.readLine();
-      HashMap<Integer, Integer> lineToRelease = new HashMap<Integer, Integer>();
-      String[] header = line.split("\t");
+   public static void readSpecies() {
+	    try (BufferedReader br = new BufferedReader(new FileReader("species.txt"))) {
+	        String line = br.readLine();
+	        HashMap<Integer, Integer> lineToRelease = new HashMap<>();
+	        String[] header = line.split("\t");
 
-      for(int i = 1; i < header.length; ++i) {
-         lineToRelease.put(i, Integer.parseInt(header[i]));
-      }
+	        for (int i = 1; i < header.length; ++i) {
+	            lineToRelease.put(i, Integer.parseInt(header[i]));
+	        }
 
-      for(line = br.readLine(); line != null; line = br.readLine()) {
-         String[] tokens = line.split("\t");
-         HashMap<Integer, String> urlss = new HashMap<Integer, String>();
+	        while ((line = br.readLine()) != null) {
+	            String[] tokens = line.split("\t");
+	            HashMap<Integer, String> urlss = new HashMap<>();
 
-         for(int i = 1; i < tokens.length; ++i) {
-            urlss.put((Integer)lineToRelease.get(i), tokens[i]);
-         }
+	            for (int i = 1; i < tokens.length; ++i) {
+	                urlss.put(lineToRelease.get(i), tokens[i]);
+	            }
 
-         urls.put(tokens[0], urlss);
-      }
+	            urls.put(tokens[0], urlss);
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
 
-      br.close();
-   }
 
    public static void createEnsemblDB() {
-      try {
-         readSpecies();
-         System.out.println("Computing gene info for species " + Parameters.organism_S + " ...");
-         HashMap<Integer, String> toLoad = urls.get(Parameters.organism_S);
+	    try {
+	        readSpecies();
+	        System.out.println("Computing gene info for species " + Parameters.organism_S + " ...");
+	        HashMap<Integer, String> toLoad = urls.get(Parameters.organism_S);
 
-         String gene_id;
-         Iterator<String> it;
-         GeneInfo g;
-         for(int i = 43; i <= 87; ++i) {
-            String url = (String)toLoad.get(i);
-            if (url.equals("NA")) {
-               System.out.println("Release " + i + " does not exist for species " + Parameters.organism_S);
-            } else {
-               downloadEnsembl((String)toLoad.get(i));
-               it = geneInfo.keySet().iterator();
+	        String gene_id;
+	        Iterator<String> it;
+	        GeneInfo g;
+	        for (int i = 43; i <= 87; ++i) {
+	            String url = toLoad.get(i);
+	            if (url.equals("NA")) {
+	                System.out.println("Release " + i + " does not exist for species " + Parameters.organism_S);
+	            } else {
+	                downloadEnsembl(url);
+	                it = geneInfo.keySet().iterator();
 
-               while(it.hasNext()) {
-                  gene_id = it.next();
-                  g = (GeneInfo)geneInfo.get(gene_id);
-                  long l = g.getLength();
-                  if (l != 0L) {
-                     g.sumExonLength = g.getLength();
-                  }
-               }
+	                while (it.hasNext()) {
+	                    gene_id = it.next();
+	                    g = geneInfo.get(gene_id);
+	                    long l = g.getLength();
+	                    if (l != 0L) {
+	                        g.sumExonLength = g.getLength();
+	                    }
+	                }
 
-               System.out.println("Release " + i + ": " + geneInfo.size() + " genes now in database.");
-            }
-         }
+	                System.out.println("Release " + i + ": " + geneInfo.size() + " genes now in database.");
+	            }
+	        }
 
-         BufferedWriter bw = new BufferedWriter(new FileWriter(Parameters.outputFolder + Parameters.organism_S + ".txt"));
-         bw.write("Ensembl\tName\tAltNames\tBiotype\tGeneLength\tSumExonLength\tChr\n");
-         ArrayList<String> tmp = new ArrayList<String>();
-         it = geneInfo.keySet().iterator();
+	        try (BufferedWriter bw = new BufferedWriter(new FileWriter(Parameters.outputFolder + Parameters.organism_S + ".txt"))) {
+	            bw.write("Ensembl\tName\tAltNames\tBiotype\tGeneLength\tSumExonLength\tChr\n");
 
-         while(it.hasNext()) {
-            gene_id = it.next();
-            tmp.add(gene_id);
-         }
+	            ArrayList<String> tmp = new ArrayList<>();
+	            it = geneInfo.keySet().iterator();
+	            while (it.hasNext()) {
+	                gene_id = it.next();
+	                tmp.add(gene_id);
+	            }
 
-         Collections.sort(tmp);
+	            Collections.sort(tmp);
 
-         for(it = tmp.iterator(); it.hasNext(); bw.write(gene_id + "\t" + g.gene_name + "\t" + buildAltNamesString(g.alternate_names, g.gene_id.toUpperCase(), g.gene_name.toUpperCase()) + "\t" + g.biotype + "\t" + (g.end - g.start + 1L) + "\t" + g.sumExonLength + "\t" + g.chr + "\n")) {
-            gene_id = it.next();
-            g = (GeneInfo)geneInfo.get(gene_id);
-            if (g.chr.equals("dmel_mitochondrion_genome")) {
-               g.chr = "MT";
-            }
-         }
+	            for (String id : tmp) {
+	                g = geneInfo.get(id);
+	                if (g.chr.equals("dmel_mitochondrion_genome")) {
+	                    g.chr = "MT";
+	                }
+	                bw.write(id + "\t" + g.gene_name + "\t" +
+	                         buildAltNamesString(g.alternate_names, g.gene_id.toUpperCase(), g.gene_name.toUpperCase()) + "\t" +
+	                         g.biotype + "\t" +
+	                         (g.end - g.start + 1L) + "\t" +
+	                         g.sumExonLength + "\t" +
+	                         g.chr + "\n");
+	            }
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
 
-         bw.close();
-      } catch (IOException var8) {
-         var8.printStackTrace();
-      }
-
-   }
 
    private static String buildAltNamesString(HashSet<String> names, String ensNameUp, String geneNameUp) {
       HashSet<String> unique = new HashSet<String>();
@@ -134,106 +142,108 @@ public class EnsemblDB {
       return res;
    }
 
-   public static void downloadEnsembl(String path) {
-      try {
-         boolean foundGeneAnnotation = false;
-         URL url = new URL("ftp://ftp.ensembl.org" + path);
-         InputStream is = url.openStream();
-         InputStream gzipStream = new GZIPInputStream(is);
-         BufferedReader br = new BufferedReader(new InputStreamReader(gzipStream));
+   public static void downloadEnsembl(String path) 
+   {
+	    boolean foundGeneAnnotation = false;
+	    try ( InputStream is = URI.create("ftp://ftp.ensembl.org" + path).toURL().openStream();
+    	      GZIPInputStream gzipStream = new GZIPInputStream(is);
+    	      BufferedReader br = new BufferedReader(new InputStreamReader(gzipStream)) ) 
+	    {
+	        // Initialize exon_id field
+	        for (String key : geneInfo.keySet())
+	        {
+	            GeneInfo g = geneInfo.get(key);
+	            g.exon_id = RangeSet.create(Long.class, true, true);  // Assuming RangeSet is a custom utility
+	        }
 
-         String line;
-         for(Iterator<String> it = geneInfo.keySet().iterator(); it.hasNext(); ((GeneInfo)geneInfo.get(line)).exon_id = RangeSet.create(Long.class, true, true)) {
-            line = it.next();
-         }
+	        String line;
+	        while ((line = br.readLine()) != null) 
+	        {
+	            if (line.startsWith("#")) continue;
 
-         for(line = br.readLine(); line != null; line = br.readLine()) {
-            if (!line.startsWith("#")) {
-               String[] tokens = line.split("\t");
-               String[] params = tokens[8].split(";");
-               long start = Long.parseLong(tokens[3]);
-               long end = Long.parseLong(tokens[4]);
-               String gene_name = null;
-               String gene_id = null;
-               String biotype = null;
-               String chr = tokens[0];
-               String type = tokens[2];
-               String[] var21 = params;
-               int var20 = params.length;
+	            String[] tokens = line.split("\t");
+	            if (tokens.length < 9) continue; // avoid ArrayIndexOutOfBounds
 
-               for(int var19 = 0; var19 < var20; ++var19) {
-                  String param = var21[var19];
-                  String value = param.substring(param.indexOf("\"") + 1, param.lastIndexOf("\""));
-                  if (param.contains("gene_name")) {
-                     gene_name = value;
-                  }
+	            String chr = tokens[0];
+	            String type = tokens[2];
+	            long start = Long.parseLong(tokens[3]);
+	            long end = Long.parseLong(tokens[4]);
 
-                  if (param.contains("gene_id")) {
-                     gene_id = value;
-                  }
+	            String[] params = tokens[8].split(";");
+	            String gene_name = null;
+	            String gene_id = null;
+	            String biotype = null;
 
-                  if (param.contains("gene_biotype")) {
-                     biotype = value;
-                  }
-               }
+	            for (String param : params) 
+	            {
+	                int startIdx = param.indexOf("\"");
+	                int endIdx = param.lastIndexOf("\"");
+	                if (startIdx < 0 || endIdx <= startIdx) continue;
 
-               if (gene_name == null) {
-                  gene_name = gene_id;
-               }
+	                String value = param.substring(startIdx + 1, endIdx);
+	                if (param.contains("gene_name")) gene_name = value;
+	                else if (param.contains("gene_id")) gene_id = value;
+	                else if (param.contains("gene_biotype")) biotype = value;
+	            }
 
-               if (biotype == null) {
-                  biotype = tokens[1];
-               }
+	            if (gene_id == null) continue;
+	            if (gene_name == null) gene_name = gene_id;
+	            if (biotype == null) biotype = tokens[1];
 
-               if (gene_id.startsWith("ENS") || gene_id.startsWith("FB")) {
-                  GeneInfo g = (GeneInfo)geneInfo.get(gene_id);
-                  if (g == null) {
-                     g = new GeneInfo();
-                     g.gene_id = gene_id;
-                     g.gene_name = gene_name;
-                  } else if (!gene_name.equals(g.gene_name)) {
-                     if (!g.gene_name.startsWith("ENS") && !g.alternate_names.contains(g.gene_name)) {
-                        g.alternate_names.add(g.gene_name);
-                     }
+	            if (gene_id.startsWith("ENS") || gene_id.startsWith("FB")) 
+	            {
+	                GeneInfo g = geneInfo.getOrDefault(gene_id, new GeneInfo());
+	                g.gene_id = gene_id;
 
-                     g.gene_name = gene_name;
-                     if (g.alternate_names.contains(gene_name)) {
-                        g.alternate_names.remove(gene_name);
-                     }
-                  }
+	                if (!gene_name.equals(g.gene_name)) 
+	                {
+	                    if (g.gene_name != null && !g.gene_name.startsWith("ENS") && !g.alternate_names.contains(g.gene_name)) 
+	                    {
+	                        g.alternate_names.add(g.gene_name);
+	                    }
+	                    if (g.gene_name != null && g.alternate_names.contains(gene_name)) 
+	                    {
+	                        g.alternate_names.remove(gene_name);
+	                    }
+	                    g.gene_name = gene_name;
+	                }
 
-                  g.chr = chr;
-                  g.biotype = biotype;
-                  if (type.equals("gene")) {
-                     foundGeneAnnotation = true;
-                     g.end = end;
-                     g.start = start;
-                  } else if (type.equals("exon")) {
-                     g.exon_id.add(start, end);
-                  }
+	                g.chr = chr;
+	                g.biotype = biotype;
 
-                  geneInfo.put(g.gene_id, g);
-               }
-            }
-         }
+	                if (type.equals("gene")) 
+	                {
+	                    foundGeneAnnotation = true;
+	                    g.start = start;
+	                    g.end = end;
+	                } else if (type.equals("exon")) 
+	                {
+	                    g.exon_id.add(start, end);
+	                }
 
-         br.close();
-         if (!foundGeneAnnotation) {
-            Iterator<String> it = geneInfo.keySet().iterator();
+	                geneInfo.put(g.gene_id, g);
+	            }
+	        }
 
-            while(it.hasNext()) {
-               String gene_id = it.next();
-               GeneInfo g = (GeneInfo)geneInfo.get(gene_id);
-               if (g.exon_id.size() != 0) {
-                  g.setGeneLengthToExons();
-               }
-            }
-         }
-      } catch (IOException var23) {
-         var23.printStackTrace();
-      }
+	        // If no gene annotations found, set lengths based on exon data
+	        if (!foundGeneAnnotation) 
+	        {
+	            for (GeneInfo g : geneInfo.values()) 
+	            {
+	                if (g.exon_id != null && g.exon_id.size() > 0) 
+	                {
+	                    g.setGeneLengthToExons();
+	                }
+	            }
+	        }
 
-   }
+	    } 
+	    catch (IOException e) 
+	    {
+	        e.printStackTrace(); // Consider using a logger in production
+	    }
+	}
+
 
    private static void generateSpeciesURLFromEnsembl() throws Exception {
       f = new FTPClient();
@@ -269,7 +279,7 @@ public class EnsemblDB {
          HashMap<Integer, String> releases = urls.get(s);
 
          for(int i = 43; i <= 87; ++i) {
-            String url = releases.get(new Integer(i));
+            String url = releases.get(i);
             if (url == null) {
                url = "NA";
             }

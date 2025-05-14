@@ -15,9 +15,10 @@ public class CreateDLFile {
    public static ArrayList<String> gene_names;
 
    public static void create(String inputMatrix, String outputFile) {
-      try {
-         BufferedReader br = new BufferedReader(new FileReader(inputMatrix));
-         BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+      try (	BufferedReader br = new BufferedReader(new FileReader(inputMatrix));
+    		BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));)
+      {
+         
          String line = br.readLine();
          bw.write(line + "\n");
 

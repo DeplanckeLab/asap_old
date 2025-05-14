@@ -256,7 +256,7 @@ public class Enrichment {
             double adjP = adj_p_value[idx[j]];
             if (adjP < min) min = adjP;
             else adjP = min;
-            adj_p_value[idx[i]] = Math.min(1.0D, adjP);
+            adj_p_value[idx[j]] = Math.min(1.0D, adjP);
          }
 
          return adj_p_value;
@@ -336,8 +336,7 @@ public class Enrichment {
    }
 
    private static void loadBackgroundGenes(String filename) {
-      try {
-         BufferedReader br = new BufferedReader(new FileReader(filename));
+      try(BufferedReader br = new BufferedReader(new FileReader(filename))) {
          String line = br.readLine();
 
          for(line = br.readLine(); line != null; line = br.readLine()) {
